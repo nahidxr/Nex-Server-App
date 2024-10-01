@@ -62,7 +62,7 @@ Admin Create - Admin Panel
                                 <!-- Server IP -->
                                 <div class="form-group">
                                     <label for="server_ip"><i class="fa fa-link"></i> Identifier</label>
-                                    <input type="text" class="form-control" id="server_ip" name="identifier" placeholder="Enter the IP or Domain" required>
+                                    <input type="text" class="form-control" id="server_ip" name="identifier" placeholder="12.85.103.987" required>
                                 </div>
                             </div>
                         

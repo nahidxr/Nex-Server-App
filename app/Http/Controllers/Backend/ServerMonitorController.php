@@ -7,10 +7,26 @@ use App\Models\ServerMonitor;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Log;
+use Carbon\CarbonInterval;
 
 class ServerMonitorController extends Controller
 {
+    public function index()
+    {
+        $uptimeInSeconds = 1730154.17;  // Example uptime in seconds
+
+        // Convert to a CarbonInterval instance and format
+        $uptime = CarbonInterval::seconds($uptimeInSeconds)->cascade()->forHumans();
+        ;
+
+        // dd($uptime);
+
+        // Fetch all data from the ServerMonitor table
+        $servers = ServerMonitor::all();
+        // Pass the data to the view
+        return view('backend.pages.server-monitor.index', compact('servers'));
+    }
     public function create()
     {
         // Load the view for creating a new server monitor
@@ -117,26 +133,75 @@ class ServerMonitorController extends Controller
 
     public function store(Request $request)
     {
+        try {
+            // Validate the incoming request data
+            $request->validate([
+                'server_name' => 'required|string|max:255',
+                'identifier' => 'required|string|max:255',
+                'check_interval' => 'required|integer|min:1',
+            ]);
+            
+            // Generate a unique API key and create a new server monitor record
+            $apiKey = Str::random(32);
+            $serverMonitor = ServerMonitor::create([
+                'server_name' => $request->input('server_name'),
+                'identifier' => $request->input('identifier'),
+                'check_interval' => $request->input('check_interval'),
+                'api_key' => $apiKey,
+            ]);
+            
+            // Flash success message and redirect to the server monitor show page
+            session()->flash('success', 'Server monitor created successfully.');
+
+            return redirect()->route('server-monitor.show', $serverMonitor->id);
+        } catch (\Exception $e) {
+            // Flash error message
+            session()->flash('error', 'Failed to create server monitor. Please try again.');
+
+            // Redirect back to the create page with input
+            return redirect()->route('server-monitor.create')->withInput();
+        }
+    }
+
+    public function edit($id)
+    {
+        // Find the server monitor by its ID
+        $serverMonitor = ServerMonitor::findOrFail($id);
+        
+        // Load the edit view and pass the server monitor data
+        return view('backend.pages.server-monitor.edit', compact('serverMonitor'));
+    }
+
+    public function update(Request $request, $id)
+    {
         // Validate the incoming request data
         $request->validate([
             'server_name' => 'required|string|max:255',
             'identifier' => 'required|string|max:255',
             'check_interval' => 'required|integer|min:1',
         ]);
-    
-        // Generate a unique API key and create a new server monitor record
-        $apiKey = Str::random(32);
-        $serverMonitor = ServerMonitor::create([
-            'server_name' => $request->input('server_name'),
-            'identifier' => $request->input('identifier'),
-            'check_interval' => $request->input('check_interval'),
-            'api_key' => $apiKey,
-        ]);
-    
-        // Redirect to the server monitor show page
-        return redirect()->route('server-monitor.show', $serverMonitor->id)
-                         ->with('success', 'Server monitor created successfully.');
+
+        try {
+            // Find the server monitor and update it
+            $serverMonitor = ServerMonitor::findOrFail($id);
+            $serverMonitor->update([
+                'server_name' => $request->input('server_name'),
+                'identifier' => $request->input('identifier'),
+                'check_interval' => $request->input('check_interval'),
+            ]);
+
+            // Flash success message and redirect to the edit page
+            session()->flash('success', 'Server monitor updated successfully.');
+
+            return redirect()->route('server-monitor.edit', $serverMonitor->id);
+        } catch (\Exception $e) {
+            // Flash error message and redirect back to the edit page
+            session()->flash('error', 'Failed to update the server monitor. Please try again.');
+
+            return redirect()->route('server-monitor.edit', $id)->withInput();
+        }
     }
+
     public function serveMonitorScript($id, $api_key)
     {
         // Find the server monitor by ID
@@ -181,6 +246,19 @@ class ServerMonitorController extends Controller
         $serverMonitor->save();
 
         return response()->json(['message' => 'Data saved successfully!'], 200);
+    }
+
+    public function destroy($id)
+    {
+        // Find the server by ID
+        $serverMonitor = ServerMonitor::findOrFail($id);
+
+        // Delete the server record
+        $serverMonitor->delete();
+
+        // Redirect back to the server index page with a success message
+        return redirect()->route('server-monitor.index')
+                        ->with('success', 'Server deleted successfully.');
     }
 
 

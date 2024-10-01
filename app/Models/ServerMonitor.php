@@ -22,7 +22,7 @@ class ServerMonitor extends Model
     ];
 
     // Specify any casts for the model
-    protected $casts = [
-        'server_data' => 'array',  // Automatically cast server_data as an array when retrieved
-    ];
+    // protected $casts = [
+    //     'server_data' => 'array',  // Automatically cast server_data as an array when retrieved
+    // ];
 }

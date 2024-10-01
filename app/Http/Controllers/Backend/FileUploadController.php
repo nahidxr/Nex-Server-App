@@ -264,7 +264,7 @@ class FileUploadController extends Controller
 
 
         $extension = pathinfo($validated['file_name'], PATHINFO_EXTENSION); // Get the file extension
-        $uniqueFileId = Str::random(15);
+        $uniqueFileId = Str::random(32);
         $uniqueFile =  $uniqueFileId . '.' . $extension; // Unique ID + extension
         // Generate the unique file ID in the desired format
 

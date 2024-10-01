@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Backend\ServerMonitorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +18,4 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware('auth:api')->get('/user', function (Requests $request) {
 //     return $request->user();
 // });
+Route::post('/server-monitor-track/{server_id}/{api_key}', [ServerMonitorController::class, 'saveData']);

@@ -104,6 +104,6 @@ network_total_upload=0
 json="{\"network_download\": \"$network_download\", \"network_upload\": \"$network_upload\", \"network_total_download\": \"$network_total_download\", \"network_total_upload\": \"$network_total_upload\",  \"cpu_model\": \"$cpu_model\", \"cpu_cores\": \"$cpu_cores\", \"cpu_frequency\": \"$cpu_frequency\", \"uptime\": \"$uptime\", \"os_name\": \"$os_name\", \"os_version\": \"$os_version\", \"kernel_name\": \"$kernel_name\", \"kernel_release\": \"$kernel_release\", \"kernel_version\": \"$kernel_version\", \"cpu_architecture\": \"$cpu_architecture\", \"cpu_usage\": \"$cpu_usage\", \"ram_usage\": \"$ram_usage\", \"ram_total\": \"$ram_total\", \"ram_used\": \"$ram_used\", \"disk_usage\": \"$disk_usage\", \"disk_total\": \"$disk_total\", \"disk_used\": \"$disk_used\", \"cpu_load_1\": \"$cpu_load_1\", \"cpu_load_5\": \"$cpu_load_5\", \"cpu_load_15\": \"$cpu_load_15\"}"
 
 # Make HTTP POST request to upload data
-url="{BASE_URL}/server-monitor-track/$server_id/$api_key" 
+url="{BASE_URL}/api/server-monitor-track/$server_id/$api_key" 
 curl -X POST -H "Content-Type: application/json" -d "$json" "$url" &
 

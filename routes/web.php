@@ -76,6 +76,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::delete('/upload/delete', [FileUploadController::class, 'tmpDelete'])->name('upload.delete');
     Route::delete('/upload/{id}', [FileUploadController::class, 'destroy'])->name('upload.destroy');
     
+    Route::get('server-monitor', [ServerMonitorController::class, 'index'])->name('server-monitor.index');
     Route::get('server-monitor/create', [ServerMonitorController::class, 'create'])->name('server-monitor.create');
     Route::post('server-monitor/store', [ServerMonitorController::class, 'store'])->name('server-monitor.store');
     Route::get('server-monitor/edit/{id}', [ServerMonitorController::class, 'edit'])->name('server-monitor.edit');
@@ -86,4 +87,3 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 Route::get('/server-monitor-code/{id}/{api_key}', [ServerMonitorController::class, 'serveMonitorScript']);
-Route::post('/server-monitor-track/{server_id}/{api_key}', [ServerMonitorController::class, 'saveData']);
