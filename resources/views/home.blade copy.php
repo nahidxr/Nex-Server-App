@@ -10,6 +10,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.bootstrap5.css">
 
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('/admin/plugins/fontawesome-free/css/all.min.css') }}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ asset('/admin/dist/css/adminlte.min.css') }}">
+
+    <!-- Custom style -->
+    <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
 
     <!-- Icon for the tab -->
     <link rel="icon" href="{{ asset('/admin/dist/img/N.png') }}" type="image/png">
@@ -55,24 +62,18 @@
         th,
         td {
             border: 1px solid #dee2e6;
-          
+            padding: 10px; /* Reduced padding */
             font-size: 14px; /* Reduced font size */
-           
         }
 
         th {
             background-color: #144e69;
             color: #ffffff;
-            text-align: center;
         }
 
         tr:nth-child(even) {
             background-color: #f8f9fa;
         }
-        #dataTable th {
-        text-align: center;
-        vertical-align: middle;
-    }
 
         tr:hover {
             background-color: #e2e6ea;
@@ -109,19 +110,36 @@
         .text-danger {
             color: #dc3545 !important;
         }
-        
 
-  
-        
-        
+        @media screen and (max-width: 768px) {
+            table {
+                width: 100%; /* Full width on smaller screens */
+            }
+        }
     </style>
 </head>
 
 <body>
 
+    {{-- <div class="header-container">
+        <div style="display: flex; align-items: center;">
+            <a href="#">
+                <img src="{{ asset('/backend/assets/images/logo/nexdecade_logo.png') }}" class="brand-image img-circle elevation-3" style="opacity: .8; border-left-style: solid; margin-left: 20px; border-left-width: 0px; width: 115px;">
+            </a>
+            <h1 style="text-align: center; margin-left: 350px;">Server Statistics</h1>
+        </div>
+    
+        <div style="display: flex; gap: 10px;">
+            <form method="POST" action="{{ route('logout') }}" style="flex: 1; margin: 0; display: flex;">
+                @csrf
+                <button type="submit" class="nav-link" style="flex: 1; padding: 2px 4px; background-color: #e6337a; color: white; text-decoration: none; border-radius: 4px; border: none; cursor: pointer; margin-right: 10px;">
+                    Logout
+                </button>
+            </form>
+        </div>
+    </div> --}}
 
-
-    <nav class="navbar navbar-expand-lg " style="background-color: #230324; color: white; "> <!-- Change #ff5733 to your desired color -->
+    <nav class="navbar navbar-expand-lg " style="background-color: #09213a; color: white; "> <!-- Change #ff5733 to your desired color -->
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
                 <img src="{{ asset('/backend/assets/images/logo/nexdecade_logo.png') }}" class="brand-image img-circle elevation-3" style="opacity: .8; width: 115px;" alt="Nexdecade Logo">
@@ -134,22 +152,100 @@
         </div>
     </nav>
     
+    
+
+    {{-- <table id="dataTable" class="table table-bordered text-center cell-border">
+        <thead class="bg-light text-capitalize">
+            <tr>
+                <th width="5%">ID</th>
+                <th width="15%">Server Name</th>
+                <th width="15%">CPU Usage</th>
+                <th width="15%">RAM Usage</th>
+                <th width="15%">Disk Usage</th>
+                <th width="15%">UpTime</th>
+                <th width="15%">Last Log</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($servers as $server)
+                @php
+                    $data = json_decode($server->server_data, true);
+                @endphp
+                <tr>
+                    <td>{{ $server->id }}</td>
+                    <td>{{ $server->server_name }}</td>
+                    <td>
+                        <div class="usage-box" style="background-color: rgba(76, 175, 80, 0.2);">
+                            <span>{{ $data['cpu_usage'] ?? 0 }}%</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="usage-box" style="background-color: rgba(3, 169, 244, 0.2);">
+                            <span>{{ $data['ram_usage'] ?? 0 }}%</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="usage-box" style="background-color: rgba(189, 189, 189, 0.2);">
+                            <span>{{ $data['disk_usage'] ?? 0 }}%</span>
+                        </div>
+                    </td>
+                    <td>
+                        @php
+                            $uptimeInSeconds = isset($data['uptime']) ? $data['uptime'] : 0;
+                            $uptimeInMinutes = floor($uptimeInSeconds / 60);
+                            $uptimeInHours = floor($uptimeInMinutes / 60);
+                            $uptimeInDays = floor($uptimeInHours / 24);
+                            $uptimeInMonths = floor($uptimeInDays / 30);
+                            $uptimeInYears = floor($uptimeInMonths / 12);
+
+                            $remainingDays = $uptimeInDays % 30;
+                            $remainingHours = $uptimeInHours % 24;
+                            $remainingMinutes = $uptimeInMinutes % 60;
+
+                            $uptimeParts = [];
+
+                            if ($uptimeInYears > 0) {
+                                $uptimeParts[] = "{$uptimeInYears} year" . ($uptimeInYears > 1 ? 's' : '');
+                            }
+                            if ($remainingDays > 0) {
+                                $uptimeParts[] = "{$remainingDays} day" . ($remainingDays > 1 ? 's' : '');
+                            }
+                            if ($remainingHours > 0) {
+                                $uptimeParts[] = "{$remainingHours} hour" . ($remainingHours > 1 ? 's' : '');
+                            }
+                            if ($remainingMinutes > 0) {
+                                $uptimeParts[] = "{$remainingMinutes} minute" . ($remainingMinutes > 1 ? 's' : '');
+                            }
+
+                            $uptimeString = implode(' ', $uptimeParts) ?: '-';
+                        @endphp
+
+                        <span>{{ $uptimeString }}</span>
+                    </td>
+                    <td>
+                        <span>
+                            {{ $server->server_data ? ($server->updated_at ? $server->updated_at->diffForHumans() : '-') : '-' }}
+                        </span>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table> --}}
     <div class="container-fluid mt-2">
         <div class="row justify-content-center">
             <div class="col-lg-12"> <!-- Adjust column size as needed -->
-                {{-- <div class="card shadow"> --}}
-                <div>
+                <div class="card shadow">
                     <div class="card-body">
                         <table id="dataTable" class="table table-bordered text-center cell-border">
                             <thead class="bg-light text-capitalize">
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Server Name</th>
-                                    <th>CPU Usage</th>
-                                    <th>RAM Usage</th>
-                                    <th>Disk Usage</th>
-                                    <th>UpTime</th>
-                                    <th>Last Log</th>
+                                    <th width="5%">ID</th>
+                                    <th width="15%">Server Name</th>
+                                    <th width="15%">CPU Usage</th>
+                                    <th width="15%">RAM Usage</th>
+                                    <th width="15%">Disk Usage</th>
+                                    <th width="15%">UpTime</th>
+                                    <th width="15%">Last Log</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -223,6 +319,18 @@
         </div>
     </div>
     
+    {{-- <footer class="bg-dark text-white text-center py-4">
+        <div class="container">
+            <p class="mb-0">
+                © Copyright 2024. All rights reserved. 
+                <a href="https://nexdecade.com/" target="_blank" class="text-white" style="text-decoration: underline;">
+                    Nexdecade Technology Pvt. LTD
+                </a>.
+            </p>
+        </div>
+    </footer> --}}
+
+
 
 
     
@@ -235,20 +343,10 @@
 
     <script>
         $(document).ready(function () {
-            $('#dataTable').DataTable({
-            info: false,     // Disable the "showing X of X entries" info
-            ordering: false, // Disable column ordering
-            paging: false,      
-            searching: false,      
-            });
+            $('#dataTable').DataTable();
         });
     </script>
-    <script>
-        // Refresh the page every 5 minutes (300000 milliseconds)
-        setInterval(function() {
-            location.reload();
-        }, 300000); // 5 minutes in milliseconds
-    </script>
+ 
 
 </body>
 

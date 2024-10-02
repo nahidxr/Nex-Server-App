@@ -87,3 +87,16 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 Route::get('/server-monitor-code/{id}/{api_key}', [ServerMonitorController::class, 'serveMonitorScript']);
+
+
+
+// Login Routes
+Route::get('/user/login', 'frontend\Auth\LoginController@showLoginForm')->name('user.login');
+Route::post('/user/login/submit', 'frontend\Auth\LoginController@login')->name('user.login.submit');
+
+// Logout Routes
+Route::post('/user/logout/submit', 'frontend\Auth\LoginController@logout')->name('user.logout.submit');
+
+// Forget Password Routes
+Route::get('/user/password/reset', 'frontend\Auth\ForgetPasswordController@showLinkRequestForm')->name('user.password.request');
+Route::post('/user/password/reset/submit', 'frontend\Auth\ForgetPasswordController@reset')->name('user.password.update');

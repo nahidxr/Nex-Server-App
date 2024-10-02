@@ -37,7 +37,8 @@
                                  @if ($usr->can('role.view'))
                                      <li
                                          class="{{ Route::is('admin.roles.index') || Route::is('admin.roles.edit') ? 'active' : '' }}">
-                                         <a href="{{ route('admin.roles.index') }}">All Roles</a></li>
+                                         <a href="{{ route('admin.roles.index') }}">All Roles</a>
+                                     </li>
                                  @endif
                                  @if ($usr->can('role.create'))
                                      <li class="{{ Route::is('admin.roles.create') ? 'active' : '' }}"><a
@@ -59,7 +60,8 @@
                                  @if ($usr->can('admin.view'))
                                      <li
                                          class="{{ Route::is('admin.admins.index') || Route::is('admin.admins.edit') ? 'active' : '' }}">
-                                         <a href="{{ route('admin.admins.index') }}">All Admins</a></li>
+                                         <a href="{{ route('admin.admins.index') }}">All Admins</a>
+                                     </li>
                                  @endif
 
                                  @if ($usr->can('admin.create'))
@@ -70,26 +72,6 @@
                          </li>
                      @endif
 
-                     <!-- sidebar.blade.php -->
-                     {{-- @if ($usr->can('scorm.create') || $usr->can('scorm.view') || $usr->can('scorm.edit') || $usr->can('scorm.delete'))
-                            <li>
-                                <a href="javascript:void(0)" aria-expanded="true">
-                                    <i class="fa fa-file"></i>
-                                    <span>SCORM</span>
-                                </a>
-                                <ul class="collapse {{ Route::is('scorm.get') || Route::is('scorm.create') || Route::is('scorm.index') || Route::is('scorm.edit') ? 'in' : '' }}">
-
-                                    @if ($usr->can('scorm.view'))
-                                        <li class="{{ Route::is('admin.scorm.index') ? 'active' : '' }}">
-                                            <a href="{{ route('admin.scorm.index') }}">SCORM</a>
-                                        </li>
-
-                                    @endif
-
-
-                                </ul>
-                            </li>
-                        @endif --}}
 
                      <li>
                          <a href="javascript:void(0)" aria-expanded="true">
@@ -102,7 +84,6 @@
                              </li>
                          </ul>
                      </li>
-
 
                      <li>
                          <a href="javascript:void(0)" aria-expanded="true">
