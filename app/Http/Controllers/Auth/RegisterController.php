@@ -70,4 +70,11 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+    public function showRegistrationForm()
+    {
+        // Check if the user is authenticated
+
+            return redirect()->route('login'); // Redirect to the login page
+        
+    }
 }

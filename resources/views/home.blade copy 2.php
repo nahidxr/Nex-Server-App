@@ -9,8 +9,6 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.bootstrap5.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
 
 
     <!-- Icon for the tab -->
@@ -44,25 +42,41 @@
         }
 
         /* Updated table styles */
- 
-        .table thead th {
-    position: sticky;
-    top: 0;
-    z-index: 10; /* Adjust z-index if you have overlapping elements */
-    background-color: #fff; /* Ensure the header has a background */
-}
+        table {
+            width: 70%; /* Reduced width */
+            margin: 20px auto; /* Centered the table */
+            border-collapse: collapse;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
 
-    #dataTable th {
+        th,
+        td {
+            border: 1px solid #dee2e6;
+          
+            font-size: 14px; /* Reduced font size */
+           
+        }
+
+        th {
+            background-color: #144e69;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        #dataTable th {
         text-align: center;
         vertical-align: middle;
-        font-size: 14px;
-    }
-    #dataTable td {
-        text-align: center;
-        vertical-align: middle;
-        font-size: 14px;
     }
 
+        tr:hover {
+            background-color: #e2e6ea;
+        }
 
         .up-icon,
         .down-icon {
@@ -112,10 +126,7 @@
             <a class="navbar-brand" href="#">
                 <img src="{{ asset('/backend/assets/images/logo/nexdecade_logo.png') }}" class="brand-image img-circle elevation-3" style="opacity: .8; width: 115px;" alt="Nexdecade Logo">
             </a>
-            <h1 class="navbar-text mx-auto text-white">
-                <i class="fas fa-chart-bar"></i> <!-- You can change the icon class as needed -->
-                Server Statistics
-            </h1>
+            <h1 class="navbar-text mx-auto text-white">Server Statistics</h1>
             <form method="POST" action="{{ route('logout') }}" class="d-flex">
                 @csrf
                 <button type="submit" class="btn btn-danger">Logout</button>
@@ -129,18 +140,16 @@
                 {{-- <div class="card shadow"> --}}
                 <div>
                     <div class="card-body">
-                        <table id="dataTable" class="table table-bordered table-hover table-striped table-head-fixed">
+                        <table id="dataTable" class="table table-bordered text-center cell-border">
                             <thead class="bg-light text-capitalize">
                                 <tr>
                                     <th>ID</th>
-                                    <th width="10%">Server Name</th>
-                                    <th>CPU Usage(%)</th>
-                                    <th>RAM Usage(%)</th>
-                                    <th>Disk Usage(%)</th>
-                                    <th>Network Upload(Kbps)</th>
-                                    <th>Network Download(kbps)</th>
+                                    <th>Server Name</th>
+                                    <th>CPU Usage</th>
+                                    <th>RAM Usage</th>
+                                    <th>Disk Usage</th>
                                     <th>UpTime</th>
-                                    <th>Last Updated Time </th>
+                                    <th>Last Log</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -149,7 +158,7 @@
                                         $data = json_decode($server->server_data, true);
                                     @endphp
                                     <tr>
-                                        <td class="text-center">{{ $loop->index+1 }}</td>
+                                        <td>{{ $loop->index+1 }}</td>
                                         <td>{{ $server->server_name }}</td>
                                         <td>
                                             <div class="usage-box d-flex justify-content-center align-items-center" style="background-color: rgba(76, 175, 80, 0.2);">
@@ -166,8 +175,6 @@
                                                 <span>{{ $data['disk_usage'] ?? 0 }}%</span>
                                             </div>
                                         </td>
-                                        <td>{{ number_format(($data['network_upload'] / 1024) * 8, 2) }} kbps</td>
-                                        <td>{{ number_format(($data['network_download'] / 1024) * 8, 2) }} kbps</td>
                                         <td>
                                             @php
                                                 $uptimeInSeconds = isset($data['uptime']) ? $data['uptime'] : 0;
@@ -201,7 +208,11 @@
     
                                             <span>{{ $uptimeString }}</span>
                                         </td>
-                                        <td>{{ $server->updated_at }}</td>
+                                        <td>
+                                            <span>
+                                                {{ $server->server_data ? ($server->updated_at ? $server->updated_at->diffForHumans() : '-') : '-' }}
+                                            </span>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -223,16 +234,14 @@
 
 
     <script>
-
-        new DataTable('#dataTable', {
-            fixedHeader: true,
-            info: false,     
-            ordering: true,
+        $(document).ready(function () {
+            $('#dataTable').DataTable({
+            info: false,     // Disable the "showing X of X entries" info
+            ordering: false, // Disable column ordering
             paging: false,      
-            searching: true,  
+            searching: false,      
+            });
         });
-
-
     </script>
     <script>
         // Refresh the page every 5 minutes (300000 milliseconds)
