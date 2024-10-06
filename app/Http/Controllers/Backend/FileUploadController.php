@@ -47,59 +47,12 @@ class FileUploadController extends Controller
         return view('backend.pages.upload-file.index');
     }
 
-    // public function uploadLarge(Request $request)
-    // {
-    //     $request->validate([
-    //         'file' => 'required|file|mimes:mp4', // Limit file size to 20MB
-    //     ]);
+    public function create()
+    {
+        return view('backend.pages.content_management.create');
+    }
 
-    //     $file = $request->file('file');
-    //     $path = $file->store('videos', 'public'); // Store the file in the 'public/videos' directory
-
-    //     return response()->json(['path' => Storage::url($path)]);
-    //     }
-
-    //     // public function uploadLarge(Request $request)
-    //     // {
-    //     //     $request->validate([
-    //     //         'file' => 'required|file|mimes:mp4|max:20480', // Limit file size to 20MB
-    //     //     ]);
-
-    //     //     $file = $request->file('file');
-    //     //     $filePath = $file->store('videos', 'public'); // Store the file in the 'public/videos' directory
-    //     //     $fullPath = Storage::path($filePath); // Get the full path for generating video details
-
-    //     //     // Generate video details
-    //     //     $videoDetails = $this->generateVideoDetails($fullPath);
-            
-    //     //     // Decode the JSON response from generateVideoDetails
-    //     //     // $videoDetailsArray = json_decode($videoDetails, true);
-    //     //     $staticVideoDetails = [
-    //     //         'duration' => '00:00:30', // Example duration
-    //     //         'resolution' => '1920x1080', // Example resolution
-    //     //         'bitrate' => '4500kbps', // Example bitrate
-    //     //         'codec' => 'H.264', // Example codec
-    //     //         'fps' => 30, // Frames per second
-    //     //         // Add other static fields as needed
-    //     //     ];
-    //     //     // Create a new Content record
-    //     //     try {
-    //     //         Content::create([
-    //     //             'file_name' => $file->getClientOriginalName(), // Original file name
-    //     //             'file_path' => $filePath, // Path stored in the filesystem
-    //     //             'folder' => 'videos', // Specify the folder or use as needed
-    //     //             'file_id' => null, // You can assign a value or logic here if needed
-    //     //             'media_details' => $staticVideoDetails, // Store video details as JSON
-    //     //         ]);
-    //     //     } catch (\Exception $e) {
-    //     //         Log::error('Error saving video details: ' . $e->getMessage());
-    //     //         return response()->json(['error' => 'Failed to save video details.'], 500);
-    //     //     }
-
-    //     //     return response()->json(['path' => Storage::url($filePath)]);
-    //     // }
-
-
+    
     public function store(Request $request)
     {
         // create the file receiver
@@ -173,156 +126,75 @@ class FileUploadController extends Controller
 
 
 
-    // protected function saveFileToBucket(Request $request)
-    // {
-    //     // Validate the incoming request
-    //     $validated = $request->validate([
-    //         'file_path' => 'required|string',
-    //         'file_name' => 'required|string',
-    //     ]);
-
-    //     // Full path to the temporary file
-    //     $tempFilePath = storage_path('app/public/upload/' . $validated['file_path'] . '/' . $validated['file_name']);
-
-    //     // Check if file exists
-    //     if (!file_exists($tempFilePath)) {
-    //         return response()->json(['error' => 'File not found.'], 404);
-    //     }
-
-    //     // Define the destination path in the GCS bucket
-    //     $destinationPath = 'uploads/' . $validated['file_name'];
-    //     $filePath = 'upload/' . $validated['file_path'] . '/' . $validated['file_name'];
-
-    //     try {
-          
-
-    //         // Save file information in the database
-    //         $content = new Content();
-    //         $content->file_name = pathinfo($request->originalFileName, PATHINFO_FILENAME);
-    //         $content->encoder_status = 0; // Update as needed
-    //         $extension = pathinfo($validated['file_name'], PATHINFO_EXTENSION); // Get the file extension
-    //         $uniqueFileId = Str::random(10) . '.' . $extension; // Unique ID + extension
-    //         $content->file_id = $uniqueFileId;
-    //         // $content->file_id = Str::random(10); // Random file ID
-    //         $content->file_path = $filePath; // Path in the GCS bucket
-    //         $content->folder = $validated['file_path']; // Store the folder path
-    //         // If you need to extract media details, ensure you implement the logic
-    //         $fileDir = public_path("storage/public/upload/{$validated['file_path']}/{$validated['file_name']}");
-    //         $content->media_details = $this->generateVideoDetails($fileDir);
-
-
-    //         // Upload the file to GCS
-    //         $storage = new StorageClient([
-    //             'projectId' => env('GOOGLE_CLOUD_PROJECT_ID'),
-    //             'keyFilePath' => env('GOOGLE_CLOUD_KEY_FILE'),
-    //         ]);
-
-    //         $bucket = $storage->bucket(env('GOOGLE_CLOUD_STORAGE_BUCKET'));
-    //         $bucket->upload(
-    //             fopen($tempFilePath, 'r'),
-    //             ['name' => $content->file_id]
-    //         );
-
-    //         $content->save();
-
-
-    //         // Delete the temporary file after uploading to GCS
-    //         // Storage::delete($tempFilePath);
-    //         session()->flash('success', 'File has Sucessfully Uploaded !!');
-    //         // Return success response
-    //         return response()->json(['message' => 'File saved to Google Cloud Storage successfully and saved in database!', 'path' => $destinationPath], 200);
-    //     } catch (\Exception $e) {
-    //         // Handle exceptions
-    //         session()->flash('error', 'File uploading failed !');
-    //         return response()->json(['error' => 'Failed to upload file to Google Cloud Storage.', 'exception' => $e->getMessage()], 500);
-    //     }
-    // }
 
     protected function saveFileToBucket(Request $request)
     {
+        return 1;
         // Validate the incoming request
         $validated = $request->validate([
-            'file_path' => 'required|string',
-            'file_name' => 'required|string',
+            'file' => 'required|file|mimes:mp4,png,jpg,jpeg', // Ensure the file is required
+            'file_name' => 'required|string|max:255', // Validate file name
+            'file_path' => 'required|string', // Validate file path
         ]);
     
-
-        // Full path to the temporary file
-        $tempFilePath = storage_path('app/public/upload/' . $validated['file_path'] . '/' . $validated['file_name']);
-
-        // Check if file exists
-        if (!file_exists($tempFilePath)) {
-            return response()->json(['error' => 'File not found.'], 404);
-        }
-
-        // $numericId = rand(1000000, 9999999);
-        //  // Generate a UUID
-        // $uuid = (string) Str::uuid(); 
-        // $uniqueFileId = "{$numericId}_{$uuid}";
-        // $uniqueFile= "$uniqueFileId.{$extension}";
-
-
-
-        $extension = pathinfo($validated['file_name'], PATHINFO_EXTENSION); // Get the file extension
+        // Get the uploaded file
+        $file = $request->file('file');
+        $fileName = $validated['file_name'];
+        $filePath = 'upload/' . $validated['file_path'] . '/' . $file->getClientOriginalName(); // Get the original file name
+    
+        // Generate a unique filename
+        $extension = $file->getClientOriginalExtension(); // Get the file extension
         $uniqueFileId = Str::random(32);
         $uniqueFile =  $uniqueFileId . '.' . $extension; // Unique ID + extension
-        // Generate the unique file ID in the desired format
-
-
-     
-
+    
         // Define the destination path in the GCS bucket
-        $destinationPath = 'uploads/'. $uniqueFile;
-        // $destinationPath = $uniqueFileId;
-        $filePath = 'upload/' . $validated['file_path'] . '/' . $validated['file_name'];
-
+        $destinationPath = 'uploads/' . $uniqueFile;
+    
         // Prepare the StorageClient
         $storage = new StorageClient([
             'projectId' => env('GOOGLE_CLOUD_PROJECT_ID'),
             'keyFilePath' => env('GOOGLE_CLOUD_KEY_FILE'),
         ]);
-
+    
         $bucket = $storage->bucket(env('GOOGLE_CLOUD_STORAGE_BUCKET'));
-
+    
         try {
             // Attempt to upload the file to GCS
-            $object = $bucket->upload(
-                fopen($tempFilePath, 'r'),
-                ['name' => $destinationPath]
-            );
-
+            // $object = $bucket->upload(
+            //     fopen($file->getRealPath(), 'r'), // Use the real path of the uploaded file
+            //     ['name' => $destinationPath]
+            // );
+    
             // If the upload is successful, create a new Content instance
-            if ($object) {
-            // if (true) {
+            if (true) {
                 $content = new Content();
-                $content->file_name = pathinfo($request->originalFileName, PATHINFO_FILENAME);
+                $content->file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME); // Store the original filename
                 $content->encoder_status = 0; // Update as needed
                 $content->file_id = $uniqueFileId;
-                $content->file_path = $filePath; // Path in the GCS bucket
+                $content->file_path = $destinationPath; // Path in the GCS bucket
                 $content->folder = $validated['file_path']; // Store the folder path
-
+    
                 // If you need to extract media details, ensure you implement the logic
-                $fileDir = public_path("storage/public/upload/{$validated['file_path']}/{$validated['file_name']}");
+                $fileDir = $file->getRealPath();
                 $content->media_details = $this->generateVideoDetails($fileDir);
-
+    
                 // Save file information in the database
                 $content->save();
-
-                // Delete the temporary file after uploading to GCS
-                // Storage::delete($tempFilePath);
+    
+                // Optionally delete the local file after uploading to GCS
+                // $file->move(storage_path('app/public/upload/' . $validated['file_path']), $fileName); // Move the file locally if needed
                 session()->flash('success', 'File has successfully uploaded!');
-
+    
                 // Return success response
-                return response()->json(['message' => 'File saved to Google Cloud Storage successfully and saved in database!', 'path' => $destinationPath], 200);
+                return response()->json(['message' => 'File saved to Google Cloud Storage successfully and saved in the database!', 'path' => $destinationPath], 200);
             }
-
+    
         } catch (\Exception $e) {
             // Handle exceptions
             session()->flash('error', 'File uploading failed!');
             return response()->json(['error' => 'Failed to upload file to Google Cloud Storage.', 'exception' => $e->getMessage()], 500);
         }
     }
-
 
 
     /**

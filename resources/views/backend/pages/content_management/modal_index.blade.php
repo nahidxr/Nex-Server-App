@@ -7,7 +7,7 @@ Admins - Admin Panel
 @section('styles')
     <!-- Start datatable css -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
+    {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css"> --}}
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.jqueryui.min.css">
 
@@ -81,9 +81,12 @@ Admins - Admin Panel
                                     <td>{{ $content->media_details['all_details']['frame_rate']['display'] }}</td>
                                     <td>{{ $content->media_details['all_details']['sample_rate']['display'] }}</td>
                                     <td>
-                                        <a class="btn btn-primary btn-sm text-white" href="{{ url('/content/' . $content->id . '/edit') }}">Update</a>
-                                        <a class="btn btn-danger btn-sm ml-1 text-white" href="{{ url('/content/' . $content->id) }}" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $content->id }}').submit();">Delete</a>
-                                        <form id="delete-form-{{ $content->id }}" action="{{ url('/content/' . $content->id) }}" method="POST" style="display: none;">
+                                        <a class="btn btn-danger btn-sm ml-1 text-white" 
+                                           href="{{ url('/admin/upload/' . $content->id) }}" 
+                                           onclick="event.preventDefault(); document.getElementById('delete-form-{{ $content->id }}').submit();">
+                                           Delete
+                                        </a>
+                                        <form id="delete-form-{{ $content->id }}" action="{{ url('/admin/upload/' . $content->id) }}" method="POST" style="display: none;">
                                             @method('DELETE')
                                             @csrf
                                         </form>
@@ -113,10 +116,7 @@ Admins - Admin Panel
             <div class="modal-body">
                 <form id="uploadForm" enctype="multipart/form-data">
                     @csrf
-                    <div class="form-group">
-                        <label for="fileNameInput">File Name</label>
-                        <input type="text" class="form-control" id="fileNameInput" name="file_name" required>
-                    </div>
+ 
                     <!-- Drag-and-drop file upload container -->
                     <div id="upload-container" class="upload-container text-center">
                         <div class="upload-icon">
@@ -127,17 +127,25 @@ Admins - Admin Panel
                         </label>
                         <input type="file" id="file-upload" name="file" style="display: none;" required>
                         <div class="upload-text" id="uploadText">
-                            Drag and drop or click to upload video
+                         click to upload video
                         </div>
 
                         <!-- Video preview (initially hidden) -->
                         <video id="videoPreview" controls style="display: none; width: 100%; height: auto; margin-top: 10px;"></video>
+
+        
                     </div>
 
                     <!-- Progress bar (initially hidden) -->
-                    <div class="progress mt-3" id="progressBarContainer" style="display: none; height: 25px;">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%; height: 100%">0%
+                    <div id="progress-content" class="upload-progress-content">
+                        <!-- Label changes to "Uploading..." when the upload starts -->
+                        <label class="uploading-label" id="uploadingLabel" style="display: none;">Uploading...</label>
+                        
+                        <!-- Progress bar, shown while the video is uploading -->
+                        <div class="progress mt-3" id="progressBarContainer" style="display: none;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">0%
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -145,7 +153,11 @@ Admins - Admin Panel
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeButton">Close</button>
-                <button type="button" class="btn btn-primary" id="saveButton">Save</button>
+                {{-- <button type="button" class="btn btn-primary" id="saveButton">Save</button> --}}
+                <button type="button" class="btn btn-primary" id="saveButton">
+                    <span class="spinner-border spinner-border-sm d-none" id="loadingSpinner" role="status" aria-hidden="true"></span>
+                    Save
+                </button>
             </div>
         </div>
     </div>
@@ -154,7 +166,7 @@ Admins - Admin Panel
 <!-- Styles for upload container -->
 <style>
     .upload-container {
-        border: 2px dashed #2a5078;
+        border: 1px solid #bababa;
         border-radius: 8px;
         padding: 50px;
         background-color: #f9f9f9;
@@ -202,13 +214,21 @@ Admins - Admin Panel
         width: 100%;
         height: auto;
         border-radius: 8px;
+        margin-top: 10px;
     }
 
     .progress-bar-container-inside {
         margin-top: 10px;
         width: 100%;
     }
+
+    /* Spinner styles */
+    .spinner-border {
+        margin-top: 15px;
+        display: block; /* Display block to center spinner */
+    }
 </style>
+
 @endsection
 
 @section('scripts')
@@ -231,95 +251,152 @@ Admins - Admin Panel
        }
 
        $(document).ready(function () {
-        let browseFile = $('#file-upload');
-let progressBarContainer = $('#progressBarContainer');
-let progressBar = $('.progress-bar');
-let videoPreview = $('#videoPreview');
-let uploadText = $('#uploadText');
-let browseFileButton = $('#browseFileButton');
-let uploadContainer = $('#upload-container');
+    let browseFile = $('#file-upload');
+    let progressBarContainer = $('#progressBarContainer');
+    let progressBar = $('.progress-bar');
+    let videoPreview = $('#videoPreview');
+    let uploadText = $('#uploadText');
+    let browseFileButton = $('#browseFileButton');
+    let uploadContainer = $('#upload-container');
+    let spinner = $('#spinner');
+    let uploadingLabel = $('#uploadingLabel');
+    let uploadedVideoPath = ''; // Track uploaded video path
+    let originalFileName = ''; // Track uploaded video path
 
-let resumable = new Resumable({
-    target: '{{ route("upload.store") }}',
-    query: {_token: '{{ csrf_token() }}'},
-    fileType: ['png', 'jpg', 'jpeg', 'mp4'],
-    chunkSize: 10 * 1024 * 1024, // Adjust chunk size based on server limit
-    headers: {
-        'Accept': 'application/json'
-    },
-    testChunks: false,
-    throttleProgressCallbacks: 1,
-});
+    // Initialize Resumable.js for file uploading
+    function initializeResumable() {
+        let resumable = new Resumable({
+            target: '{{ route("upload.store") }}', // Backend route for file upload
+            query: {_token: '{{ csrf_token() }}'}, // Include CSRF token for security
+            fileType: ['png', 'jpg', 'jpeg', 'mp4'], // Allow these file types
+            chunkSize: 10 * 1024 * 1024, // 10MB chunk size
+            headers: {
+                'Accept': 'application/json'
+            },
+            testChunks: false, // Disable chunk testing
+            throttleProgressCallbacks: 1, // Control progress callback rate
+        });
 
-resumable.assignBrowse(browseFile[0]);
+        resumable.assignBrowse(browseFile[0]);
 
-resumable.on('fileAdded', function (file) {
-    // Change the container design when the upload starts
-    uploadContainer.addClass('active-upload');
-    
-    // Hide the browse button and show the progress bar
-    uploadText.hide();
-    browseFileButton.hide();
-    progressBarContainer.addClass('progress-bar-container-inside').show();
-    
-    // Start uploading
-    resumable.upload();
-});
+        // When a file is added
+        resumable.on('fileAdded', function (file) {
+            uploadContainer.addClass('active-upload'); // Add active state class
+            uploadText.hide(); // Hide upload text
+            browseFileButton.hide(); // Hide browse button
+            progressBarContainer.addClass('progress-bar-container-inside').show(); // Show progress bar container
+            uploadingLabel.show().text('Uploading...'); // Show uploading label
+            spinner.show(); // Show spinner animation
+            resumable.upload(); // Start the upload
+        });
 
-resumable.on('fileProgress', function (file) {
-    // Update progress bar
-    let progress = Math.floor(file.progress() * 100);
-    progressBar.css('width', `${progress}%`);
-    progressBar.text(`${progress}%`);
-});
+        // While file is uploading
+        resumable.on('fileProgress', function (file) {
+            let progress = Math.floor(file.progress() * 100); // Calculate percentage progress
+            progressBar.css('width', `${progress}%`); // Update progress bar width
+            progressBar.text(`${progress}%`); // Display percentage in progress bar
+        });
 
-resumable.on('fileSuccess', function (file, response) {
-    // Parse the response
-    response = JSON.parse(response);
+        // When file upload is successful
+        resumable.on('fileSuccess', function (file, response) {
+            response = JSON.parse(response); // Parse the response JSON
+            console.log('Upload successful, server response:', response); 
 
-    // Check if the uploaded file is a video
-    if (response.mime_type.includes("video")) {
-        // Hide the progress bar and show the video preview in full width inside the container
-        progressBarContainer.hide();
-        videoPreview.attr('src', response.path + '/' + response.name).show();
+            if (response.mime_type.includes("video")) {
+                progressBarContainer.hide(); // Hide progress bar when complete
+                videoPreview.attr('src', response.path + '/' + response.name).show(); // Show video preview
+                spinner.hide(); // Hide spinner
+                uploadingLabel.hide(); // Hide uploading label
+                uploadContainer.css('border', 'none'); // Remove border after upload
+                uploadedVideoPath = response.path + '/' + response.name; // Store the uploaded video path
+                originalFileName = response.originalFileName; // Store the uploaded video path
+
+                console.log('Uploaded Video Path:', uploadedVideoPath);
+                console.log('Original File Name:', originalFileName);
+            }
+        });
+
+        // On file upload error
+        resumable.on('fileError', function (file, response) {
+            alert('File upload error.');
+            resetUploadContainer(); // Reset upload container on error
+        });
     }
+
+    // Initialize the file upload on page load
+    initializeResumable();
+
+    // Function to reset the UI to the initial state after upload
+    function resetUploadContainer() {
+        progressBarContainer.removeClass('progress-bar-container-inside').hide(); // Hide progress bar container
+        videoPreview.hide(); // Hide video preview
+        browseFileButton.show(); // Show browse file button
+        uploadText.show(); // Show upload text
+        progressBar.css('width', '0%').text('0%'); // Reset progress bar
+        spinner.hide(); // Hide spinner
+        uploadingLabel.hide(); // Hide uploading label
+        uploadedVideoPath = ''; // Clear the stored video path
+    }
+
+    // Function to delete the uploaded video from the server
+    function deleteUploadedVideo() {
+        if (uploadedVideoPath) {
+            let relativeVideoPath = uploadedVideoPath.replace(window.location.origin + '/', ''); // Get relative path
+
+            $.ajax({
+                url: '{{ route("upload.delete") }}', // Backend route for deleting the video
+                method: 'DELETE',
+                data: {
+                    _token: '{{ csrf_token() }}', // Include CSRF token for security
+                    video_path: relativeVideoPath // Send the relative file path to backend
+                },
+                success: function (response) {
+                    console.log('Video deleted successfully');
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error deleting the video:', error); // Log error on failure
+                }
+            });
+        }
+    }
+
+    
+    $('#saveButton').on('click', function () {
+    // Send the file details to the finalSave route
+    $.ajax({
+        url: '{{ route("upload.saveBucket") }}', // Backend route for final save
+        method: 'POST',
+        data: {
+            _token: '{{ csrf_token() }}', // CSRF token for security
+            file_path: uploadedVideoPath.split('/').slice(-3, -1).join('/'), // Extract temp file path
+            file_name: uploadedVideoPath.split('/').pop(), // Extract file name from uploaded path
+            originalFileName: originalFileName, // Extract file name from uploaded path
+        },
+        success: function (response) {
+            console.log('File saved successfully:', response);
+            $('#uploadModal').modal('hide'); // Close the modal
+            location.reload(); // Reload page after save
+        },
+        error: function (xhr, status, error) {
+            console.error('Error saving file:', error);
+        }
+    });
 });
 
-resumable.on('fileError', function (file, response) {
-    alert('File upload error.');
-    resetUploadContainer();
-});
 
-function resetUploadContainer() {
-    // Reset to the initial state
-    uploadContainer.removeClass('active-upload');
-    progressBarContainer.removeClass('progress-bar-container-inside').hide();
-    videoPreview.hide();
-    browseFileButton.show();
-    uploadText.show();
-    progressBar.css('width', '0%').text('0%');
-}
 
-// Enable drag-and-drop functionality
-uploadContainer.on('dragover', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    uploadContainer.css('border', '2px solid #1d3557');
-});
+    // Event handler for close buttons to delete uploaded video and reset the modal
+    $('#closeButton, #topCloseButton').on('click', function () {
+        deleteUploadedVideo(); // Call function to delete the uploaded video
+        resetUploadContainer(); // Reset the upload UI state
+        $('#uploadModal').modal('hide'); // Close the modal window
 
-uploadContainer.on('dragleave', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    uploadContainer.css('border', '2px dashed #2a5078');
-});
-
-uploadContainer.on('drop', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    resumable.assignDrop(e.originalEvent.dataTransfer.files);
-});
+        // Optionally reload the page after closing the modal (uncomment to enable)
+        location.reload(); 
+    });
 
 });
+
 
     </script>
 @endsection

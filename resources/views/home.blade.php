@@ -17,12 +17,14 @@
     <link rel="icon" href="{{ asset('/admin/dist/img/N.png') }}" type="image/png">
 
     <style>
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f8f9fa;
             margin: 0;
             padding: 0;
         }
+
 
         .header-container {
             display: flex;
@@ -46,11 +48,11 @@
         /* Updated table styles */
  
         .table thead th {
-    position: sticky;
-    top: 0;
-    z-index: 10; /* Adjust z-index if you have overlapping elements */
-    background-color: #fff; /* Ensure the header has a background */
-}
+            position: sticky;
+            top: 0;
+            z-index: 10; /* Adjust z-index if you have overlapping elements */
+            background-color: #fff; /* Ensure the header has a background */
+        }
 
     #dataTable th {
         text-align: center;
@@ -212,8 +214,17 @@
         </div>
     </div>
     
-
-
+    {{-- <footer class="bg-dark text-white text-center py-4">
+        <div class="container">
+            <p class="mb-0">
+                © Copyright 2024. All rights reserved. 
+                <a href="https://nexdecade.com/" target="_blank" class="text-white" style="text-decoration: underline;">
+                    Nexdecade Technology Pvt. LTD
+                </a>.
+            </p>
+        </div>
+    </footer> --}}
+  
     
     <!-- jQuery and Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>

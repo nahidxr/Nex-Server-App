@@ -5,63 +5,7 @@ Content Create - Content Panel
 @endsection
 
 @section('styles')
-<style>
-    .upload-container {
-        border: 1px solid #bababa;
-        border-radius: 8px;
-        padding: 50px;
-        background-color: #f9f9f9;
-        color: #6c757d;
-        margin-bottom: 20px;
-        position: relative;
-        transition: all 0.3s ease;
-    }
-
-    .upload-container.active-upload {
-        border: 2px solid #ffffff; /* Change border style during upload */
-        padding: 0; /* Remove padding to fit the video */
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background-color: #fff;
-    }
-
-    .upload-container .upload-icon {
-        font-size: 50px;
-        color: #000;
-    }
-
-    .upload-container .upload-button {
-        background-color: #1d3557;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-    }
-
-    .upload-container .upload-button:hover {
-        background-color: #16344a;
-    }
-
-    .upload-container .upload-text {
-        margin-top: 10px;
-        font-size: 14px;
-        color: #6c757d;
-    }
-
-    /* Full width video preview when active */
-    .upload-container video {
-        width: 100%;
-        height: auto;
-        border-radius: 8px;
-        margin-top: 10px;
-    }
-
-
-
-
-</style>
+<!-- Add any additional CSS here if needed -->
 @endsection
 
 @section('admin-content')
@@ -96,7 +40,7 @@ Content Create - Content Panel
 
                     @include('backend.layouts.partials.messages')
 
-                    <form id="uploadForm" method="POST" action="{{ route('upload.saveBucket') }}" enctype="multipart/form-data">
+                    <form id="uploadForm" enctype="multipart/form-data">
                         @csrf
 
                         <!-- File Name -->
@@ -139,9 +83,7 @@ Content Create - Content Panel
                                 </div>
 
                                 <!-- Video preview (initially hidden) -->
-                                {{-- <video id="videoPreview" controls style="display: none; width: 100%; height: auto; margin-top: 10px;"></video> --}}
-                                <video id="videoPreview" controls style="display: none; width: 100%; height: 400px; margin-top: 10px;"></video>
-
+                                <video id="videoPreview" controls style="display: none; width: 100%; height: auto; margin-top: 10px;"></video>
                             </div>
 
                             <!-- Progress bar (initially hidden) -->
@@ -274,8 +216,8 @@ Content Create - Content Panel
                 }
             });
         });
-         // Handle Cancel button click
-         $('#cancelButton').on('click', function() {
+        // Handle Cancel button click
+        $('#cancelButton').on('click', function() {
             window.location.href = '{{ route("content.index") }}';  // Redirect to the content index page
         });
     });

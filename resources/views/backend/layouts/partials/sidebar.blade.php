@@ -72,29 +72,29 @@
                          </li>
                      @endif
 
-                     @if ($usr->can('admin.create') || $usr->can('admin.view') || $usr->can('admin.edit') || $usr->can('admin.delete'))
+                     {{-- @if ($usr->can('admin.create') || $usr->can('admin.view') || $usr->can('admin.edit') || $usr->can('admin.delete')) --}}
                         <li>
                             <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-users"></i><span>
                                     Users
                                 </span></a>
                             <ul class="collapse {{ Route::is('admin.users.create') || Route::is('admin.users.index') || Route::is('admin.users.edit') || Route::is('admin.users.show') ? 'in' : '' }}">
 
-                                @if ($usr->can('admin.view'))
+                                {{-- @if ($usr->can('admin.view')) --}}
                                     <li class="{{ Route::is('admin.users.index') || Route::is('admin.users.edit') ? 'active' : '' }}">
                                         <a href="{{ route('admin.users.index') }}">All Users</a>
                                     </li>
-                                @endif
+                                {{-- @endif --}}
 
-                                @if ($usr->can('admin.create'))
+                                {{-- @if ($usr->can('admin.create')) --}}
                                     <li class="{{ Route::is('admin.users.create') ? 'active' : '' }}">
                                         <a href="{{ route('admin.users.create') }}">Create User</a>
                                     </li>
-                                @endif
+                                {{-- @endif --}}
 
 
                             </ul>
                         </li>
-                    @endif
+                    {{-- @endif --}}
 
 
 
