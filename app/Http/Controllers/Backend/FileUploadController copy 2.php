@@ -129,30 +129,21 @@ class FileUploadController extends Controller
 
     protected function saveFileToBucket(Request $request)
     {
-
-        
+        return $request;
+        // Validate the incoming request
         $validated = $request->validate([
+            'file' => 'required|file|mimes:mp4,png,jpg,jpeg', // Ensure the file is required
             'file_name' => 'required|string|max:255', // Validate file name
-            'file_title' => 'required|string|max:255', // Validate file name
             'file_path' => 'required|string', // Validate file path
-            'originalFileName' => 'required|string|max:255' ,
-            'profiles' => 'required|array', // Ensure profiles are included and is an array
-            'profiles.*.scale_x' => 'required|numeric', // Validate scale_x for each profile
-            'profiles.*.scale_y' => 'required|numeric', // Validate scale_y for each profile
-            'profiles.*.height' => 'required|integer', // Validate height for each profile
-            'profiles.*.width' => 'required|integer', // Validate width for each profile
-            'profiles.*.audio_bitrate' => 'required|integer', // Validate audio bitrate for each profile
-            'profiles.*.video_bitrate' => 'required|integer', 
         ]);
-
+    
         // Get the uploaded file
-        $originalFileName = $validated['originalFileName'];
+        $file = $request->file('file');
         $fileName = $validated['file_name'];
-        $filePath = 'upload/' . $validated['file_path'] . '/' .  $originalFileName; // Get the original file name
-        $localFilePath = public_path("storage/public/upload/{$validated['file_path']}/{$validated['file_name']}");
-
+        $filePath = 'upload/' . $validated['file_path'] . '/' . $file->getClientOriginalName(); // Get the original file name
+    
         // Generate a unique filename
-        $extension = pathinfo( $originalFileName, PATHINFO_EXTENSION);
+        $extension = $file->getClientOriginalExtension(); // Get the file extension
         $uniqueFileId = Str::random(32);
         $uniqueFile =  $uniqueFileId . '.' . $extension; // Unique ID + extension
     
@@ -168,47 +159,40 @@ class FileUploadController extends Controller
         $bucket = $storage->bucket(env('GOOGLE_CLOUD_STORAGE_BUCKET'));
     
         try {
-
-            if (file_exists($localFilePath)) {
-                 //  Attempt to upload the file to GCS
-                // $object = $bucket->upload(
-                //     fopen($localFilePath, 'r'), // Open the local file for reading
-                //     ['name' => $destinationPath] // The path in the GCS bucket
-                // );
-               
+            // Attempt to upload the file to GCS
+            // $object = $bucket->upload(
+            //     fopen($file->getRealPath(), 'r'), // Use the real path of the uploaded file
+            //     ['name' => $destinationPath]
+            // );
+    
+            // If the upload is successful, create a new Content instance
+            if (true) {
                 $content = new Content();
-                $content->original_file_name = pathinfo( $originalFileName, PATHINFO_FILENAME); // Store the original filename without extension
-                $content->file_name = $validated['file_title'];
+                $content->file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME); // Store the original filename
                 $content->encoder_status = 0; // Update as needed
                 $content->file_id = $uniqueFileId;
                 $content->file_path = $destinationPath; // Path in the GCS bucket
                 $content->folder = $validated['file_path']; // Store the folder path
-                $content->profiles = json_encode($validated['profiles']);
+    
                 // If you need to extract media details, ensure you implement the logic
-                $fileDir = public_path("storage/public/upload/{$validated['file_path']}/{$validated['file_name']}");
+                $fileDir = $file->getRealPath();
                 $content->media_details = $this->generateVideoDetails($fileDir);
+    
                 // Save file information in the database
                 $content->save();
-
-                unlink($localFilePath); // Delete the file
-            
-                // session()->flash('success', 'File has successfully uploaded!');
     
-                $message = 'File uploaded successfully!';
-
-                return response()->json(['message' => $message, 'status' => 'success'], 200);
-            }else {
-            // If the file doesn't exist, log an error
-            Log::error('Local file not found for uploading: ' . $localFilePath);
-            return response()->json(['error' => 'Local file not found.'], 404);
-        }
+                // Optionally delete the local file after uploading to GCS
+                // $file->move(storage_path('app/public/upload/' . $validated['file_path']), $fileName); // Move the file locally if needed
+                session()->flash('success', 'File has successfully uploaded!');
+    
+                // Return success response
+                return response()->json(['message' => 'File saved to Google Cloud Storage successfully and saved in the database!', 'path' => $destinationPath], 200);
+            }
     
         } catch (\Exception $e) {
             // Handle exceptions
-            // session()->flash('error', 'File uploading failed!');
-            $error = 'Failed to upload file.';
-
-            return response()->json(['message' => $error, 'status' => 'error'], 500);
+            session()->flash('error', 'File uploading failed!');
+            return response()->json(['error' => 'Failed to upload file to Google Cloud Storage.', 'exception' => $e->getMessage()], 500);
         }
     }
 
@@ -423,8 +407,22 @@ class FileUploadController extends Controller
             // Find the content by ID
             $content = Content::findOrFail($id); // Ensure this is the correct model
 
-            $content->delete();
+            // Get the file path stored in the database
+            $filePath = $content->file_path; // e.g., public/upload/video-mp4/2024-09-39/bkash_ads_6d2400385e80d9db68e218e61a12f8f9.mp4
 
+            // Debug: Check the file path
+            // dd($filePath);
+
+            // Delete the associated file from storage
+            // Specify 'public' disk as your files are stored there
+            if (Storage::disk('public')->exists($filePath)) {
+                Storage::disk('public')->delete($filePath);
+            } else {
+                return redirect()->route('upload.index')->with('error', 'File does not exist.');
+            }
+
+            // Delete the content from the database
+            $content->delete();
 
             return redirect()->route('upload.index')->with('success', 'Content deleted successfully.');
         } catch (\Exception $e) {

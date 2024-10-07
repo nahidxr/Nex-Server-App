@@ -23,6 +23,7 @@ class Content extends Model
      */
     protected $fillable = [
         'file_name',
+        'original_file_name',
         'file_path',
         'folder',
         'file_id',
@@ -30,6 +31,7 @@ class Content extends Model
         'media_details',
         'status',
         'flag',
+        'profiles',
         'transferred',
     ];
 
