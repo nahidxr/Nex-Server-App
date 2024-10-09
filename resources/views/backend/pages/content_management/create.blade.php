@@ -668,7 +668,7 @@
             const style = document.createElement('style');
             style.innerHTML = `
             .profile-item.selected {
-                background-color: #007bff;
+                background-color: #17a2b8;
                 color: #fff;
             }
         `;
