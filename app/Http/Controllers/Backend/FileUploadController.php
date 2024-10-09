@@ -213,10 +213,10 @@ class FileUploadController extends Controller
 
             if (file_exists($localFilePath)) {
                  //  Attempt to upload the file to GCS
-                // $object = $bucket->upload(
-                //     fopen($localFilePath, 'r'), // Open the local file for reading
-                //     ['name' => $destinationPath] // The path in the GCS bucket
-                // );
+                $object = $bucket->upload(
+                    fopen($localFilePath, 'r'), // Open the local file for reading
+                    ['name' => $destinationPath] // The path in the GCS bucket
+                );
                
                 $content = new Content();
                 $content->original_file_name = pathinfo( $originalFileName, PATHINFO_FILENAME); // Store the original filename without extension
