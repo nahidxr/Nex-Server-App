@@ -44,7 +44,8 @@ Admins - Admin Panel
                 <div class="card-body">
                     <h4 class="header-title float-left">Content List</h4>
                     <p class="float-right mb-2">
-                            <button class="btn btn-primary text-white" data-toggle="modal" data-target="#uploadModal">Add New Content</button>
+                        <a class="btn btn-primary text-white" href="{{ route('content.create') }}">Create New
+                            Content</a>
                     </p>
                     <div class="clearfix"></div>
                     <div class="data-tables">

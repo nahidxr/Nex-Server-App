@@ -105,7 +105,7 @@
                          </a>
                          <ul class="collapse {{ Route::is('content.index') ? 'in' : '' }}">
                              <li class="{{ Route::is('content.index') ? 'active' : '' }}">
-                                 <a href="{{ route('content.index') }}">Add Content</a>
+                                 <a href="{{ route('content.index') }}"> Content List</a>
                              </li>
                          </ul>
                      </li>

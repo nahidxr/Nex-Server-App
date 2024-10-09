@@ -100,72 +100,49 @@
         }
 
         .icon-button {
-            display: inline-flex;
-            /* Align the icon centrally */
-            align-items: center;
-            /* Center vertically */
-            justify-content: center;
-            /* Center horizontally */
-            padding: 5px;
-            /* Add padding for the button */
-            margin-left: 5px;
-            /* Space between label and button */
-            border: 1px solid #007bff;
-            /* Border color */
-            border-radius: 5px;
-            /* Rounded corners */
-            background-color: #f8f9fa;
-            /* Light background color */
-            color: #007bff;
-            /* Icon color */
-            cursor: pointer;
-            /* Change cursor on hover */
-            transition: background-color 0.2s, color 0.2s;
-            /* Animation for hover effect */
+            display: inline-flex; /* Align the icon centrally */
+            align-items: center; /* Center vertically */
+            justify-content: center; /* Center horizontally */
+            padding: 5px; /* Add padding for the button */
+            margin-left: 5px; /* Space between label and button */
+            border: 1px solid #007bff; /* Border color */
+            border-radius: 5px; /* Rounded corners */
+            background-color: #f8f9fa; /* Light background color */
+            color: #007bff; /* Icon color */
+            cursor: pointer; /* Change cursor on hover */
+            transition: background-color 0.2s, color 0.2s; /* Animation for hover effect */
         }
 
         .icon-button:hover {
-            background-color: #e2e6ea;
-            /* Darker background on hover */
-            color: #0056b3;
-            /* Darker color on hover */
+            background-color: #e2e6ea; /* Darker background on hover */
+            color: #0056b3; /* Darker color on hover */
         }
 
         .icon-button i {
-            font-size: 1.5em;
-            /* Adjust the icon size */
+            font-size: 1.5em; /* Adjust the icon size */
         }
 
 
         .profiles-list {
-            margin-top: 20px;
-            /* Space above the profile list */
-        }
+    margin-top: 20px; /* Space above the profile list */
+}
 
-        .list-group-item {
-            padding: 15px;
-            /* Padding for each item */
-            border: 1px solid #e0e0e0;
-            /* Border for each item */
-            border-radius: 5px;
-            /* Rounded corners */
-            margin-bottom: 10px;
-            /* Space between items */
-        }
+.list-group-item {
+    padding: 15px; /* Padding for each item */
+    border: 1px solid #e0e0e0; /* Border for each item */
+    border-radius: 5px; /* Rounded corners */
+    margin-bottom: 10px; /* Space between items */
+}
 
-        .badge-info {
-            background-color: #17a2b8;
-            /* Bootstrap info color for profile labels */
-            color: #fff;
-            /* White text for contrast */
-        }
+.badge-info {
+    background-color: #17a2b8; /* Bootstrap info color for profile labels */
+    color: #fff; /* White text for contrast */
+}
 
-        .list-group {
-            list-style: none;
-            /* Remove default list styling */
-            padding: 0;
-            /* Remove padding */
-        }
+.list-group {
+    list-style: none; /* Remove default list styling */
+    padding: 0; /* Remove padding */
+}
     </style>
 @endsection
 
@@ -216,73 +193,15 @@
                             </div>
 
 
-                            <!-- Profiles List Display -->
-                            <div class="row mt-4">
-                                <div class="col-12">
-                                    <h5>Profiles</h5>
-                                    <div class="profiles-list" id="profilesList">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item profile-item" data-profile="profile_1">
-                                                        <span class="badge badge-info">Profile 1</span><br>
-                                                        <strong>MPEG-4 1920x1080</strong> - 1.2 Mbps - 25 fps<br>
-                                                        <span>MPEG AAC LC - 128 Kbps</span>
-                                                    </li>
-                                                    <li class="list-group-item profile-item" data-profile="profile_2">
-                                                        <span class="badge badge-info">Profile 2</span><br>
-                                                        <strong>MPEG-4 1280x720</strong> - 1 Mbps - 25 fps<br>
-                                                        <span>MPEG AAC LC - 128 Kbps</span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item profile-item" data-profile="profile_3">
-                                                        <span class="badge badge-info">Profile 3</span><br>
-                                                        <strong>MPEG-4 854x480</strong> - 856 Kbps - 25 fps<br>
-                                                        <span>MPEG AAC LC - 128 Kbps</span>
-                                                    </li>
-                                                    <li class="list-group-item profile-item" data-profile="profile_4">
-                                                        <span class="badge badge-info">Profile 4</span><br>
-                                                        <strong>MPEG-4 640x360</strong> - 512 Kbps - 25 fps<br>
-                                                        <span>MPEG AAC LC - 128 Kbps</span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item profile-item" data-profile="profile_5">
-                                                        <span class="badge badge-info">Profile 5</span><br>
-                                                        <strong>MPEG-4 426x240</strong> - 360 Kbps - 25 fps<br>
-                                                        <span>MPEG AAC LC - 128 Kbps</span>
-                                                    </li>
-                                                    <li class="list-group-item profile-item" data-profile="profile_6">
-                                                        <span class="badge badge-info">Profile 6</span><br>
-                                                        <strong>MPEG-4 256x144</strong> - 180 Kbps - 25 fps<br>
-                                                        <span>MPEG AAC LC - 128 Kbps</span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Hidden input to store selected profiles -->
-                            <input type="hidden" id="selectedProfiles" name="selected_profiles">
-
-
                             <!-- Profile Section -->
-                            <div class="form-group mt-2" id="profileSection">
+                            <div class="form-group" id="profileSection">
+                                <label>Profiles:</label>
                                 <div id="profileContainer">
                                     <!-- No profiles will be displayed initially -->
                                 </div>
-                                <button type="button" id="addProfileButton" class="btn btn-info mt-2">+ Add
-                                    Custom Profile</button>
+                                <button type="button" id="addProfileButton" class="btn btn-success mt-2">+ Add
+                                    Profile</button>
                             </div>
-
-
 
 
 
@@ -445,20 +364,25 @@
 
                 // Gather the profile data
                 $('.profile').each(function() {
-                    const width = $(this).find('input[name*="[width]"]').val();
+                    const scaleX = $(this).find('input[name*="[scale_x]"]').val();
+                    const scaleY = $(this).find('input[name*="[scale_y]"]').val();
                     const height = $(this).find('input[name*="[height]"]').val();
+                    const width = $(this).find('input[name*="[width]"]').val();
+                    const audioBitrate = $(this).find('input[name*="[audio_bitrate]"]').val();
                     const videoBitrate = $(this).find('input[name*="[video_bitrate]"]').val();
 
                     profilesData.push({
-                        width: width,
+                        scale_x: scaleX,
+                        scale_y: scaleY,
                         height: height,
+                        width: width,
+                        audio_bitrate: audioBitrate,
                         video_bitrate: videoBitrate
                     });
                 });
 
                 // Get the file name from the input field
                 const fileTitle = $('#fileName').val();
-                const selectedProfiles = $('#selectedProfiles').val();
 
 
                 const dataToSend = {
@@ -467,7 +391,6 @@
                     file_name: fileName, // Include the file name here
                     file_path: uploadedVideoPath.split('/').slice(-3, -1).join('/'),
                     originalFileName: originalFileName,
-                    selected_profiles: selectedProfiles,
                 };
 
 
@@ -484,7 +407,6 @@
                         file_name: uploadedVideoPath.split('/').pop(), // Include the file name here
                         file_path: uploadedVideoPath.split('/').slice(-3, -1).join('/'),
                         originalFileName: originalFileName,
-                        selected_profiles: selectedProfiles,
                     },
                     success: function(response) {
                         // Call function to show the success message dynamically
@@ -532,6 +454,7 @@
     </script>
 
 
+
     <script>
         let profileCount = 0; // Initialize count of profiles
 
@@ -542,10 +465,10 @@
                 const header = profile.querySelector('h5');
                 header.textContent = `Profile ${index + 1}`;
                 // Update input names accordingly
-                const inputs = profile.querySelectorAll('input');
+                const inputs = profile.querySelectorAll('input, select'); // Include select in the input update
                 inputs.forEach(input => {
                     const name = input.name.replace(/\[\d+\]/,
-                        `[${index}]`); // Replace index in name attribute
+                    `[${index}]`); // Replace index in name attribute
                     input.name = name;
                 });
             });
@@ -559,33 +482,121 @@
             const newProfile = document.createElement('div');
             newProfile.classList.add('profile', 'mt-2');
             newProfile.innerHTML = `
-        <h5 data-toggle="collapse" class="profile-header" aria-expanded="false" aria-controls="collapseProfile${profileCount}"> Custom Profile ${profileCount}</h5>
+        <h5 data-toggle="collapse" class="profile-header" aria-expanded="false" aria-controls="collapseProfile${profileCount}">
+            Profile ${profileCount}
+        </h5>
         <div id="collapseProfile${profileCount}" class="collapse mt-4">
             <div class="row">
-                <div class="col">
-                    <label for="scaleX">Regulation Height</label>
-                    <input type="number" class="form-control" name="profiles[${profileCount}][width]" placeholder="Enter width" required>
-                </div>
-                <div class="col">
-                    <label for="scaleY">Regulation width</label>
-                    <input type="number" class="form-control" name="profiles[${profileCount}][height]" placeholder="Enter height" required>
+           <div class="col-5">
+    <div class="row">
+        <div class="col-12 mb-3">
+            <label for="regulation">Regulation</label>
+            <select id="regulation" name="profiles[${profileCount}][regulation]" class="form-control" required>
+                <option value="" disabled selected>Select Video Profile</option>
+                <option value="1080p">1080p Full HD - 1920x1080 (1.2 Mbps, Audio 128 Kbps, 25 fps)</option>
+                <option value="720p">720p HD - 1280x720 (1 Mbps, Audio 128 Kbps, 25 fps)</option>
+                <option value="576p">576p SD - 720x576 (856kbps, Audio 128 Kbps, 25 fps)</option>
+                <option value="360p">360p Low Definition - 640x360 (512 Kbps, Audio 128 Kbps, 25 fps)</option>
+                <option value="240p">240p Very Low Definition - 426x240 (360 Kbps, Audio 128 Kbps, 25 fps)</option>
+                <option value="160p">160p Minimal Definition - 284x160 (180 Kbps, Audio 128 Kbps, 25 fps)</option>
+            </select>
+        </div>
+        <div class="col-12">
+        </div>
+    </div>
+</div>
+
+
+
+            <div class="col-7">
+                <div class="profiles-list">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <span class="badge badge-info">Profile 1</span><br>
+                                    <strong>MPEG-4 1920x1080</strong> - 1.2 Mbps - 25 fps<br>
+                                    <span>MPEG AAC LC - 128 Kbps</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="badge badge-info">Profile 2</span><br>
+                                    <strong>MPEG-4 1280x720</strong> - 1 Mbps - 25 fps<br>
+                                    <span>MPEG AAC LC - 128 Kbps</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="badge badge-info">Profile 3</span><br>
+                                    <strong>MPEG-4 854x480</strong> - 856 Kbps - 25 fps<br>
+                                    <span>MPEG AAC LC - 128 Kbps</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <span class="badge badge-info">Profile 4</span><br>
+                                    <strong>MPEG-4 640x360</strong> - 512 Kbps - 25 fps<br>
+                                    <span>MPEG AAC LC - 128 Kbps</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="badge badge-info">Profile 5</span><br>
+                                    <strong>MPEG-4 426x240</strong> - 360 Kbps - 25 fps<br>
+                                    <span>MPEG AAC LC - 128 Kbps</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="badge badge-info">Profile 6</span><br>
+                                    <strong>MPEG-4 256x144</strong> - 180 Kbps - 25 fps<br>
+                                    <span>MPEG AAC LC - 128 Kbps</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-           
-            <div class="row mt-3">
-                <div class="col">
-                    <label for="videoBitrate">Video Bitrate(Kb)</label>
-                    <input type="number" class="form-control" name="profiles[${profileCount}][video_bitrate]" placeholder="Enter Video Bitrate" required>
+
+
+
+
+
+
+            
+            <div id="profileDetails${profileCount}" class="collapse mt-3">
+                <div class="row">
+                    <div class="col">
+                        <label for="scaleX">Scale X</label>
+                        <input type="number" class="form-control" name="profiles[${profileCount}][scale_x]" placeholder="Enter Scale X" required>
+                    </div>
+                    <div class="col">
+                        <label for="scaleY">Scale Y</label>
+                        <input type="number" class="form-control" name="profiles[${profileCount}][scale_y]" placeholder="Enter Scale Y" required>
+                    </div>
                 </div>
-                <div class="col">
-                   
+                <div class="row mt-3">
+                    <div class="col">
+                        <label for="height">Height</label>
+                        <input type="number" class="form-control" name="profiles[${profileCount}][height]" placeholder="Enter Height" required>
+                    </div>
+                    <div class="col">
+                        <label for="width">Width</label>
+                        <input type="number" class="form-control" name="profiles[${profileCount}][width]" placeholder="Enter Width" required>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <label for="audioBitrate">Audio Bitrate (Kb)</label>
+                        <input type="number" class="form-control" name="profiles[${profileCount}][audio_bitrate]" placeholder="Enter Audio Bitrate" required>
+                    </div>
+                    <div class="col">
+                        <label for="videoBitrate">Video Bitrate (Kb)</label>
+                        <input type="number" class="form-control" name="profiles[${profileCount}][video_bitrate]" placeholder="Enter Video Bitrate" required>
+                    </div>
                 </div>
             </div>
             <button type="button" class="btn btn-danger mt-3 remove-profile">
                 <i class="ti-trash"></i> <!-- Trash icon for removing profile -->
             </button>
         </div>
-    `;
+        `;
 
             // Append the new profile to the container
             profileContainer.appendChild(newProfile);
@@ -602,13 +613,18 @@
             updateProfileHeaders();
         });
 
-
-
+        // Function to handle custom field click
+        function handleCustomFieldClick(profileCount) {
+            const regulationField = document.querySelector(`#regulation`).parentElement; // Regulation parent element
+            regulationField.style.display = 'none'; // Hide regulation
+            const profileDetails = document.querySelector(`#profileDetails${profileCount}`);
+            profileDetails.classList.add('show'); // Show custom field details
+        }
 
         // Event delegation to handle remove buttons
         document.getElementById('profileContainer').addEventListener('click', function(e) {
             if (e.target && (e.target.classList.contains('remove-profile') || e.target.closest(
-                    '.remove-profile'))) {
+                '.remove-profile'))) {
                 e.target.closest('.profile').remove();
                 // Update profile headers after removal
                 updateProfileHeaders();
@@ -634,50 +650,6 @@
             }
         });
     </script>
-
-    <script>
-        const selectedProfilesInput = document.getElementById('selectedProfiles');
-        const profileItems = document.querySelectorAll('.profile-item');
-
-        let selectedProfiles = [];
-
-        // Toggle selection of profiles
-        profileItems.forEach(item => {
-            item.addEventListener('click', function() {
-                const profile = item.dataset.profile;
-
-                // Toggle selection
-                if (selectedProfiles.includes(profile)) {
-                    selectedProfiles = selectedProfiles.filter(p => p !== profile);
-                    item.classList.remove('selected'); // Remove highlight
-                } else {
-                    selectedProfiles.push(profile);
-                    item.classList.add('selected'); // Add highlight
-                }
-
-                // Update hidden input with selected profiles
-                selectedProfilesInput.value = selectedProfiles.join(',');
-
-                // Log selected profiles to the console
-                console.log("Selected profiles:", selectedProfiles);
-            });
-        });
-
-        // Add styles to indicate selected profiles
-        document.addEventListener('DOMContentLoaded', function() {
-            const style = document.createElement('style');
-            style.innerHTML = `
-            .profile-item.selected {
-                background-color: #007bff;
-                color: #fff;
-            }
-        `;
-            document.head.appendChild(style);
-        });
-    </script>
-
-
-
 
     <script>
         document.getElementById('uploadForm').addEventListener('submit', function(e) {

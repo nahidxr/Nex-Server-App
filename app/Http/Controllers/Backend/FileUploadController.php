@@ -130,20 +130,62 @@ class FileUploadController extends Controller
     protected function saveFileToBucket(Request $request)
     {
 
+         // Check if the 'profiles' array is present in the request
+        $hasCustomProfiles = $request->has('profiles');
         
         $validated = $request->validate([
             'file_name' => 'required|string|max:255', // Validate file name
             'file_title' => 'required|string|max:255', // Validate file name
             'file_path' => 'required|string', // Validate file path
             'originalFileName' => 'required|string|max:255' ,
-            'profiles' => 'required|array', // Ensure profiles are included and is an array
-            'profiles.*.scale_x' => 'required|numeric', // Validate scale_x for each profile
-            'profiles.*.scale_y' => 'required|numeric', // Validate scale_y for each profile
-            'profiles.*.height' => 'required|integer', // Validate height for each profile
-            'profiles.*.width' => 'required|integer', // Validate width for each profile
-            'profiles.*.audio_bitrate' => 'required|integer', // Validate audio bitrate for each profile
-            'profiles.*.video_bitrate' => 'required|integer', 
+            'profiles' => $hasCustomProfiles ? 'required|array' : 'nullable|array', // Custom profiles are required only if they exist
+            'profiles.*.width' => $hasCustomProfiles ? 'required|numeric' : 'nullable|numeric', // Validate scale_x only if custom profiles are provided
+            'profiles.*.height' => $hasCustomProfiles ? 'required|numeric' : 'nullable|numeric', // Validate scale_y only if custom profiles are provided
+            'profiles.*.video_bitrate' => $hasCustomProfiles ? 'required|integer' : 'nullable|integer', // Validate video_bitrate only if custom profiles are provided
+            'selected_profiles' => 'nullable|string', // Validate selected profiles (comma-separated string), optional
         ]);
+
+
+            // Ensure at least one of profiles or selected_profiles is provided
+            if (empty($validated['profiles']) && empty($validated['selected_profiles'])) {
+                return response()->json(['error' => 'Either custom profiles or selected profiles must be provided.'], 422);
+            }
+
+            // Define the mapping for selected profiles
+            $profileMapping = [
+                'profile_1' => ['height' => 1080, 'width' => 1920, 'video_bitrate' => 1200], // 1.2 Mbps in kbps
+                'profile_2' => ['height' => 720, 'width' => 1280, 'video_bitrate' => 1000], // 1 Mbps in kbps
+                'profile_3' => ['height' => 576, 'width' => 720, 'video_bitrate' => 856],
+                'profile_4' => ['height' => 360, 'width' => 640, 'video_bitrate' => 512],
+                'profile_5' => ['height' => 240, 'width' => 426, 'video_bitrate' => 360],
+                'profile_6' => ['height' => 160, 'width' => 284, 'video_bitrate' => 360],
+            ];
+
+            // Initialize final profiles array
+            $finalProfiles = [];
+
+            // Process selected profiles
+            if (!empty($validated['selected_profiles'])) {
+                $selectedProfiles = explode(',', $validated['selected_profiles']);
+                foreach ($selectedProfiles as $profile) {
+                    $profile = trim($profile); // Clean any extra whitespace
+                    if (isset($profileMapping[$profile])) {
+                        $finalProfiles[] = $profileMapping[$profile];
+                    }
+                }
+            }
+
+            // Process custom profiles if provided
+            if (!empty($validated['profiles'])) {
+                foreach ($validated['profiles'] as $customProfile) {
+                    $finalProfiles[] = [
+                        'height' => (int)$customProfile['height'],
+                        'width' => (int)$customProfile['width'],
+                        'video_bitrate' => (int)$customProfile['video_bitrate'],
+                    ];
+                }
+            }
+
 
         // Get the uploaded file
         $originalFileName = $validated['originalFileName'];
@@ -183,13 +225,10 @@ class FileUploadController extends Controller
                 $content->file_id = $uniqueFileId;
                 $content->file_path = $destinationPath; // Path in the GCS bucket
                 $content->folder = $validated['file_path']; // Store the folder path
-                $content->profiles = json_encode($validated['profiles']);
-                // If you need to extract media details, ensure you implement the logic
+                $content->profiles = json_encode($finalProfiles);
                 $fileDir = public_path("storage/public/upload/{$validated['file_path']}/{$validated['file_name']}");
                 $content->media_details = $this->generateVideoDetails($fileDir);
-                // Save file information in the database
                 $content->save();
-
                 unlink($localFilePath); // Delete the file
             
                 // session()->flash('success', 'File has successfully uploaded!');
