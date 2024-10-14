@@ -219,62 +219,6 @@
                                 <input type="text" class="form-control" id="fileName" name="file_name"
                                     placeholder="Enter File Name" required>
                             </div>
-
-
-                            {{-- <div class="row mt-4">
-                                <div class="col-12">
-                                    <h5>Profiles</h5>
-                                    <input type="hidden" id="selectedProfiles" name="selectedProfiles">
-                                    <div class="profiles-list" id="profilesList">
-                                        <div class="row">
-                                            @foreach ($profiles as $profile)
-                                                <div class="col-md-4">
-                                                    <ul class="list-group">
-                                                        <li class="list-group-item profile-item mt-2" data-profile="profile_{{ $profile->id }}">
-                                                            <span class="profile-header badge badge-info mb-2" data-id="{{ $profile->id }}">
-                                                                {{ $profile->name }}
-                                                            </span><br>
-                                                            <strong class="profile-text">Regulation {{ $profile->width }}x{{ $profile->height }}</strong> - 
-                                                            <span class="bitrate-text">Video bitrate {{ $profile->video_bitrate }}</span> - 
-                                                            <span class="fps-text">{{ $profile->frame_rate }}</span>
-                                                            <span class="audio-text">Audio bitrate {{ $profile->audio_bitrate }}</span>
-                                                            
-                                                            <!-- Container for dotted line and input fields -->
-                                                            <div class="profile-inputs-container" style="display: none;">
-                                                                <hr style="border: none; border-top: 1px dotted #ccc; margin: 10px 0;">
-                                                                <div class="profile-inputs">
-                                                                    <div class="form-group">
-                                                                        <label for="regulationHeight_{{ $profile->id }}">Regulation Height</label>
-                                                                        <input type="number" class="form-control" id="regulationHeight_{{ $profile->id }}" value="{{ $profile->height }}">
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                        <label for="width_{{ $profile->id }}">Width</label>
-                                                                        <input type="number" class="form-control" id="width_{{ $profile->id }}" value="{{ $profile->width }}">
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                        <label for="videoBitrate_{{ $profile->id }}">Video Bitrate (Kbps)</label>
-                                                                        <input type="text" class="form-control" id="videoBitrate_{{ $profile->id }}" value="{{ $profile->video_bitrate }}">
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                        <label for="audioBitrate_{{ $profile->id }}">Audio Bitrate (Kbps)</label>
-                                                                        <input type="text" class="form-control" id="audioBitrate_{{ $profile->id }}" value="{{ $profile->audio_bitrate }}">
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                        <label for="fps_{{ $profile->id }}">FPS</label>
-                                                                        <input type="number" class="form-control" id="fps_{{ $profile->id }}" value="{{ (int) $profile->frame_rate }}" readonly>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                        
-                                                    </ul>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> --}}
-
                             <div class="row mt-4">
                                 <div class="col-12">
                                     <h5>Profiles</h5>
@@ -350,14 +294,6 @@
                                 </div>
                             </div>
 
-
-
-
-
-
-
-
-
                             <!-- Profile Section -->
                             <div class="form-group mt-2" id="profileSection">
                                 <div id="profileContainer">
@@ -366,9 +302,6 @@
                                 <button type="button" id="addProfileButton" class="btn btn-info mt-2">+ Add
                                     Custom Profile</button>
                             </div>
-
-
-
 
                             <div class="row">
                                 <div class="col-6">
@@ -640,18 +573,17 @@
                 const flashMessageHtml = `
                     <div class="alert alert-${type} alert-dismissible fade show" role="alert">
                         ${message}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 `;
 
                 $('#flashMessagesContainer').html(flashMessageHtml); // Insert the flash message into the container
 
-                // Automatically hide the flash message after 5 seconds
-                setTimeout(() => {
-                    $('.alert').fadeOut('slow', function() {
-                        $(this).remove();
-                    });
-                }, 5000);
+                // // Automatically hide the flash message after 5 seconds
+                // setTimeout(() => {
+                //     $('.alert').fadeOut('slow', function() {
+                //         $(this).remove();
+                //     });
+                // }, 5000);
             }
         });
     </script>
