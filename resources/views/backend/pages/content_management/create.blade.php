@@ -240,7 +240,7 @@
                                                                 {{ $profile->width }}x{{ $profile->height }}</strong> -
                                                             <span class="bitrate-text">Video bitrate
                                                                 {{ $profile->video_bitrate }}</span> -
-                                                            <span class="fps-text">{{ $profile->frame_rate }}</span> -
+                                                            <span class="fps-text">{{ $profile->frame_rate }}</span> <br>
                                                             <span class="audio-text">Audio bitrate
                                                                 {{ $profile->audio_bitrate }}</span>
 
@@ -579,11 +579,11 @@
                 $('#flashMessagesContainer').html(flashMessageHtml); // Insert the flash message into the container
 
                 // // Automatically hide the flash message after 5 seconds
-                // setTimeout(() => {
-                //     $('.alert').fadeOut('slow', function() {
-                //         $(this).remove();
-                //     });
-                // }, 5000);
+                setTimeout(() => {
+                    $('.alert').fadeOut('slow', function() {
+                        $(this).remove();
+                    });
+                }, 5000);
             }
         });
     </script>
