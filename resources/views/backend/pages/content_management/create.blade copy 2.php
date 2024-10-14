@@ -98,6 +98,74 @@
             background-color: #dc3545;
             color: white;
         }
+
+        .icon-button {
+            display: inline-flex;
+            /* Align the icon centrally */
+            align-items: center;
+            /* Center vertically */
+            justify-content: center;
+            /* Center horizontally */
+            padding: 5px;
+            /* Add padding for the button */
+            margin-left: 5px;
+            /* Space between label and button */
+            border: 1px solid #007bff;
+            /* Border color */
+            border-radius: 5px;
+            /* Rounded corners */
+            background-color: #f8f9fa;
+            /* Light background color */
+            color: #007bff;
+            /* Icon color */
+            cursor: pointer;
+            /* Change cursor on hover */
+            transition: background-color 0.2s, color 0.2s;
+            /* Animation for hover effect */
+        }
+
+        .icon-button:hover {
+            background-color: #e2e6ea;
+            /* Darker background on hover */
+            color: #0056b3;
+            /* Darker color on hover */
+        }
+
+        .icon-button i {
+            font-size: 1.5em;
+            /* Adjust the icon size */
+        }
+
+
+        .profiles-list {
+            margin-top: 20px;
+            /* Space above the profile list */
+        }
+
+        .list-group-item {
+            padding: 15px;
+            /* Padding for each item */
+            border: 1px solid #e0e0e0;
+            /* Border for each item */
+            border-radius: 5px;
+            /* Rounded corners */
+            margin-bottom: 10px;
+            /* Space between items */
+        }
+
+        .badge-info {
+            background-color: #17a2b8;
+            /* Bootstrap info color for profile labels */
+            color: #fff;
+            /* White text for contrast */
+        }
+
+        .list-group {
+            list-style: none;
+            /* Remove default list styling */
+            padding: 0;
+            /* Remove padding */
+        }
     </style>
 @endsection
 
@@ -148,14 +216,160 @@
                             </div>
 
 
+                            <!-- Profiles List Display -->
+                            {{-- <div class="row mt-4">
+                                <div class="col-12">
+                                    <h5>Profiles</h5>
+                                    <div class="profiles-list" id="profilesList">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item profile-item" data-profile="profile_1">
+                                                        <span class="badge badge-info">Profile 1</span><br>
+                                                        <strong>MPEG-4 1920x1080</strong> - 1.2 Mbps - 25 fps<br>
+                                                        <span>MPEG AAC LC - 128 Kbps</span>
+                                                    </li>
+                                                    <li class="list-group-item profile-item" data-profile="profile_2">
+                                                        <span class="badge badge-info">Profile 2</span><br>
+                                                        <strong>MPEG-4 1280x720</strong> - 1 Mbps - 25 fps<br>
+                                                        <span>MPEG AAC LC - 128 Kbps</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item profile-item" data-profile="profile_3">
+                                                        <span class="badge badge-info">Profile 3</span><br>
+                                                        <strong>MPEG-4 854x480</strong> - 856 Kbps - 25 fps<br>
+                                                        <span>MPEG AAC LC - 128 Kbps</span>
+                                                    </li>
+                                                    <li class="list-group-item profile-item" data-profile="profile_4">
+                                                        <span class="badge badge-info">Profile 4</span><br>
+                                                        <strong>MPEG-4 640x360</strong> - 512 Kbps - 25 fps<br>
+                                                        <span>MPEG AAC LC - 128 Kbps</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item profile-item" data-profile="profile_5">
+                                                        <span class="badge badge-info">Profile 5</span><br>
+                                                        <strong>MPEG-4 426x240</strong> - 360 Kbps - 25 fps<br>
+                                                        <span>MPEG AAC LC - 128 Kbps</span>
+                                                    </li>
+                                                    <li class="list-group-item profile-item" data-profile="profile_6">
+                                                        <span class="badge badge-info">Profile 6</span><br>
+                                                        <strong>MPEG-4 256x144</strong> - 180 Kbps - 25 fps<br>
+                                                        <span>MPEG AAC LC - 128 Kbps</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> --}}
+
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <h5>Profiles</h5>
+                                    <div class="profiles-list" id="profilesList">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item profile-item " data-profile="profile_1">
+                                                        <span class="profile-header badge badge-info">Profile 1</span><br>
+                                                        <strong class="profile-text">MPEG-4 1920x1080</strong> - 
+                                                        <span class="bitrate-text">1.2 Mbps</span> - 
+                                                        <span class="fps-text">25 fps</span><br>
+                                                        <span class="audio-text">MPEG AAC LC - 128 Kbps</span>
+                                                    </li>
+                                                    <li class="list-group-item profile-item" data-profile="profile_2">
+                                                        <span class="profile-header badge badge-info">Profile 2</span><br>
+                                                        <strong class="profile-text">MPEG-4 1280x720</strong> - 
+                                                        <span class="bitrate-text">1 Mbps</span> - 
+                                                        <span class="fps-text">25 fps</span><br>
+                                                        <span class="audio-text">MPEG AAC LC - 128 Kbps</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                            
+                                            <div class="col-md-4">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item profile-item" data-profile="profile_3">
+                                                        <span class="profile-header badge badge-info">Profile 3</span><br>
+                                                        <strong class="profile-text">MPEG-4 854x480</strong> - 
+                                                        <span class="bitrate-text">856 Kbps</span> - 
+                                                        <span class="fps-text">25 fps</span><br>
+                                                        <span class="audio-text">MPEG AAC LC - 128 Kbps</span>
+                                                    </li>
+                                                    <li class="list-group-item profile-item" data-profile="profile_4">
+                                                        <span class="profile-header badge badge-info">Profile 4</span><br>
+                                                        <strong class="profile-text">MPEG-4 640x360</strong> - 
+                                                        <span class="bitrate-text">512 Kbps</span> - 
+                                                        <span class="fps-text">25 fps</span><br>
+                                                        <span class="audio-text">MPEG AAC LC - 128 Kbps</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                            
+                                            <div class="col-md-4">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item profile-item" data-profile="profile_5">
+                                                        <span class="profile-header badge badge-info">Profile 5</span><br>
+                                                        <strong class="profile-text">MPEG-4 426x240</strong> - 
+                                                        <span class="bitrate-text">360 Kbps</span> - 
+                                                        <span class="fps-text">25 fps</span><br>
+                                                        <span class="audio-text">MPEG AAC LC - 128 Kbps</span>
+                                                    </li>
+                                                    <li class="list-group-item profile-item" data-profile="profile_6">
+                                                        <span class="profile-header badge badge-info">Profile 6</span><br>
+                                                        <strong class="profile-text">MPEG-4 256x144</strong> - 
+                                                        <span class="bitrate-text">180 Kbps</span> - 
+                                                        <span class="fps-text">25 fps</span><br>
+                                                        <span class="audio-text">MPEG AAC LC - 128 Kbps</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            
+                            <!-- Save Button to Update Profiles -->
+                            {{-- <button id="saveProfiles" class="btn btn-success mt-4">Save Changes</button> --}}
+                            
+
+
+
+
+                            
+
+                            <!-- Hidden input to store selected profiles -->
+                            <input type="hidden" id="selectedProfiles" name="selected_profiles">
+
+
                             <!-- Profile Section -->
-                            <div class="form-group" id="profileSection">
-                                <label>Profiles:</label>
+                            <div class="form-group mt-2" id="profileSection">
                                 <div id="profileContainer">
                                     <!-- No profiles will be displayed initially -->
                                 </div>
-                                <button type="button" id="addProfileButton" class="btn btn-success mt-2">+ Add
-                                    Profile</button>
+                                <button type="button" id="addProfileButton" class="btn btn-info mt-2">+ Add
+                                    Custom Profile</button>
+                            </div>
+
+
+
+
+                            <div class="row">
+                                <div class="col-6">
+
+                                </div class="col-6">
+                                <div>
+
+                                </div>
+
                             </div>
                             <!-- File Upload Section -->
                             <div class="form-group">
@@ -195,7 +409,7 @@
 
                             <div class="spinner-border d-none" role="status" id="loadingSpinner">
                                 <span class="sr-only">Loading...</span>
-                              </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -305,7 +519,7 @@
 
 
             $('#saveButton').on('click', function() {
-               
+
                 // Disable save button and show spinner
                 $('#saveButton').prop('disabled', true);
                 spinner.show();
@@ -316,25 +530,20 @@
 
                 // Gather the profile data
                 $('.profile').each(function() {
-                    const scaleX = $(this).find('input[name*="[scale_x]"]').val();
-                    const scaleY = $(this).find('input[name*="[scale_y]"]').val();
-                    const height = $(this).find('input[name*="[height]"]').val();
                     const width = $(this).find('input[name*="[width]"]').val();
-                    const audioBitrate = $(this).find('input[name*="[audio_bitrate]"]').val();
+                    const height = $(this).find('input[name*="[height]"]').val();
                     const videoBitrate = $(this).find('input[name*="[video_bitrate]"]').val();
 
                     profilesData.push({
-                        scale_x: scaleX,
-                        scale_y: scaleY,
-                        height: height,
                         width: width,
-                        audio_bitrate: audioBitrate,
+                        height: height,
                         video_bitrate: videoBitrate
                     });
                 });
 
                 // Get the file name from the input field
                 const fileTitle = $('#fileName').val();
+                const selectedProfiles = $('#selectedProfiles').val();
 
 
                 const dataToSend = {
@@ -343,6 +552,7 @@
                     file_name: fileName, // Include the file name here
                     file_path: uploadedVideoPath.split('/').slice(-3, -1).join('/'),
                     originalFileName: originalFileName,
+                    selected_profiles: selectedProfiles,
                 };
 
 
@@ -359,6 +569,7 @@
                         file_name: uploadedVideoPath.split('/').pop(), // Include the file name here
                         file_path: uploadedVideoPath.split('/').slice(-3, -1).join('/'),
                         originalFileName: originalFileName,
+                        selected_profiles: selectedProfiles,
                     },
                     success: function(response) {
                         // Call function to show the success message dynamically
@@ -372,17 +583,17 @@
                         }
                     },
                     complete: function() {
-                    // Re-enable the Save button and hide the spinner after the request is done
-                    $('#saveButton').prop('disabled', false);
-                    spinner.hide();
-                }
+                        // Re-enable the Save button and hide the spinner after the request is done
+                        $('#saveButton').prop('disabled', false);
+                        spinner.hide();
+                    }
                 });
             });
 
             // Handle Cancel button click
             $('#cancelButton').on('click', function() {
                 window.location.href =
-                '{{ route('content.index') }}'; // Redirect to the content index page
+                    '{{ route('content.index') }}'; // Redirect to the content index page
             });
 
             function showFlashMessage(type, message) {
@@ -397,14 +608,13 @@
 
                 // Automatically hide the flash message after 5 seconds
                 setTimeout(() => {
-                    $('.alert').fadeOut('slow', function () {
+                    $('.alert').fadeOut('slow', function() {
                         $(this).remove();
                     });
                 }, 5000);
             }
         });
     </script>
-
 
 
     <script>
@@ -420,7 +630,7 @@
                 const inputs = profile.querySelectorAll('input');
                 inputs.forEach(input => {
                     const name = input.name.replace(/\[\d+\]/,
-                    `[${index}]`); // Replace index in name attribute
+                        `[${index}]`); // Replace index in name attribute
                     input.name = name;
                 });
             });
@@ -434,83 +644,33 @@
             const newProfile = document.createElement('div');
             newProfile.classList.add('profile', 'mt-2');
             newProfile.innerHTML = `
-            <h5 data-toggle="collapse" class="profile-header" aria-expanded="false" aria-controls="collapseProfile${profileCount}">
-                Profile ${profileCount}
-            </h5>
-            <div id="collapseProfile${profileCount}" class="collapse mt-4">
-                <div class="row">
-                    <div class="col">
-                        <label for="regulation">Regulation</label>
-                        <select id="regulation" name="profiles[${profileCount}][regulation]" class="form-control" required onchange="handleRegulationChange(${profileCount})">
-                            <option value="" disabled selected>Select Video Profile</option>
-                            <option value="1080p">1080p Full HD - 1920x1080 (1.2 Mbps, Audio 128 Kbps, 25 fps)</option>
-                            <option value="720p">720p HD - 1280x720 (1 Mbps, Audio 128 Kbps, 25 fps)</option>
-                            <option value="576p">576p SD - 720x576 (856kbps, Audio 128 Kbps, 25 fps)</option>
-                            <option value="360p">360p Low Definition - 640x360 (512 Kbps, Audio 128 Kbps, 25 fps)</option>
-                            <option value="240p">240p Very Low Definition - 426x240 (360 Kbps, Audio 128 Kbps, 25 fps)</option>
-                            <option value="160p">160p Minimal Definition - 284x160 (180 Kbps, Audio 128 Kbps, 25 fps)</option>
-                        </select>
-                    </div>
-                    <div class="col">
-                        <label for="customField">Custom Field</label>
-                        <input type="text" class="form-control" name="profiles[${profileCount}][custom_field]" placeholder="Enter Custom Field" required onclick="handleCustomFieldClick(${profileCount})">
-                        <span class="icon" style="cursor:pointer;" onclick="handleCustomFieldClick(${profileCount})">
-                            <i class="ti-plus"></i> <!-- Custom icon for adding a custom field -->
-                        </span>
-                    </div>
-                </div>
-                <div id="profileDetails${profileCount}" class="collapse mt-3">
+                <h5 data-toggle="collapse" class="profile-header" aria-expanded="false" aria-controls="collapseProfile${profileCount}"> Custom Profile ${profileCount}</h5>
+                <div id="collapseProfile${profileCount}" class="collapse mt-4">
                     <div class="row">
                         <div class="col">
-                            <label for="scaleX">Scale X</label>
-                            <input type="number" class="form-control" name="profiles[${profileCount}][scale_x]" placeholder="Enter Scale X" required>
+                            <label for="scaleX">Regulation Width</label>
+                            <input type="number" class="form-control" name="profiles[${profileCount}][width]" placeholder="Enter width" required>
                         </div>
                         <div class="col">
-                            <label for="scaleY">Scale Y</label>
-                            <input type="number" class="form-control" name="profiles[${profileCount}][scale_y]" placeholder="Enter Scale Y" required>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col">
-                            <label for="height">Height</label>
-                            <input type="number" class="form-control" name="profiles[${profileCount}][height]" placeholder="Enter Height" required>
-                        </div>
-                        <div class="col">
-                            <label for="width">Width</label>
-                            <input type="number" class="form-control" name="profiles[${profileCount}][width]" placeholder="Enter Width" required>
+                            <label for="scaleY">Regulation Height</label>
+                            <input type="number" class="form-control" name="profiles[${profileCount}][height]" placeholder="Enter height" required>
                         </div>
                     </div>
+                
                     <div class="row mt-3">
                         <div class="col">
-                            <label for="audioBitrate">Audio Bitrate (Kb)</label>
-                            <input type="number" class="form-control" name="profiles[${profileCount}][audio_bitrate]" placeholder="Enter Audio Bitrate" required>
-                        </div>
-                        <div class="col">
-                            <label for="videoBitrate">Video Bitrate (Kb)</label>
+                            <label for="videoBitrate">Video Bitrate(Kb)</label>
                             <input type="number" class="form-control" name="profiles[${profileCount}][video_bitrate]" placeholder="Enter Video Bitrate" required>
                         </div>
+                        <div class="col">
+                        
+                        </div>
                     </div>
+                    <button type="button" class="btn btn-danger mt-3 remove-profile">
+                        <i class="ti-trash"></i> <!-- Trash icon for removing profile -->
+                    </button>
                 </div>
-                <button type="button" class="btn btn-danger mt-3 remove-profile">
-                    <i class="ti-trash"></i> <!-- Trash icon for removing profile -->
-                </button>
-            </div>
-        `;
-
-        // JavaScript functions to handle field visibility
-        function handleCustomFieldClick(profileCount) {
-            // Hide regulation field and icon, show all fields
-            document.querySelector(`#regulation`).parentElement.style.display = 'none'; // Hide regulation
-            document.querySelector(`#profileDetails${profileCount}`).classList.add('show'); // Show all fields
-        }
-
-        function handleRegulationChange(profileCount) {
-            // Show regulation field and icon, hide custom field details
-            document.querySelector(`#regulation`).parentElement.style.display = ''; // Show regulation
-            document.querySelector(`#profileDetails${profileCount}`).classList.remove('show'); // Hide custom fields
-        }
-
-
+            `;
 
             // Append the new profile to the container
             profileContainer.appendChild(newProfile);
@@ -529,10 +689,11 @@
 
 
 
+
         // Event delegation to handle remove buttons
         document.getElementById('profileContainer').addEventListener('click', function(e) {
             if (e.target && (e.target.classList.contains('remove-profile') || e.target.closest(
-                '.remove-profile'))) {
+                    '.remove-profile'))) {
                 e.target.closest('.profile').remove();
                 // Update profile headers after removal
                 updateProfileHeaders();
@@ -559,50 +720,153 @@
         });
     </script>
 
+    {{-- <script>
+        const selectedProfilesInput = document.getElementById('selectedProfiles');
+        const profileItems = document.querySelectorAll('.profile-item');
+
+        let selectedProfiles = [];
+
+        // Toggle selection of profiles
+        profileItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const profile = item.dataset.profile;
+
+                // Toggle selection
+                if (selectedProfiles.includes(profile)) {
+                    selectedProfiles = selectedProfiles.filter(p => p !== profile);
+                    item.classList.remove('selected'); // Remove highlight
+                } else {
+                    selectedProfiles.push(profile);
+                    item.classList.add('selected'); // Add highlight
+                }
+
+                // Update hidden input with selected profiles
+                selectedProfilesInput.value = selectedProfiles.join(',');
+
+                // Log selected profiles to the console
+                console.log("Selected profiles:", selectedProfiles);
+            });
+        });
+
+        // Add styles to indicate selected profiles
+        document.addEventListener('DOMContentLoaded', function() {
+            const style = document.createElement('style');
+            style.innerHTML = `
+            .profile-item.selected {
+                background-color: #17a2b8;
+                color: #fff;
+            }
+        `;
+            document.head.appendChild(style);
+        });
+    </script> --}}
+
     <script>
-        document.getElementById('uploadForm').addEventListener('submit', function (e) {
-    let isValid = true;
-
-    // Iterate through each dynamically added profile
-    document.querySelectorAll('.collapse').forEach(function (profile) {
-        const scaleX = profile.querySelector('input[name*="[scale_x]"]');
-        const scaleY = profile.querySelector('input[name*="[scale_y]"]');
-        const height = profile.querySelector('input[name*="[height]"]');
-        const width = profile.querySelector('input[name*="[width]"]');
-        const audioBitrate = profile.querySelector('input[name*="[audio_bitrate]"]');
-        const videoBitrate = profile.querySelector('input[name*="[video_bitrate]"]');
-
-        // Check if any of the fields are empty
-        if (
-            !scaleX.value.trim() ||
-            !scaleY.value.trim() ||
-            !height.value.trim() ||
-            !width.value.trim() ||
-            !audioBitrate.value.trim() ||
-            !videoBitrate.value.trim()
-        ) {
-            isValid = false;
-
-            // Add an error message if any field is empty
-            alert('All fields in each profile must be filled out.');
-
-            // Optionally, focus on the first empty field
-            if (!scaleX.value.trim()) scaleX.focus();
-            else if (!scaleY.value.trim()) scaleY.focus();
-            else if (!height.value.trim()) height.focus();
-            else if (!width.value.trim()) width.focus();
-            else if (!audioBitrate.value.trim()) audioBitrate.focus();
-            else if (!videoBitrate.value.trim()) videoBitrate.focus();
-
-            // Stop further iteration
-            return;
-        }
+        document.querySelectorAll('.profile-header').forEach(header => {
+    header.addEventListener('click', function () {
+        const profileItem = header.closest('.profile-item');
+        toggleEditable(profileItem);
     });
-
-    // Prevent form submission if validation failed
-    if (!isValid) {
-        e.preventDefault();
-    }
 });
+
+function toggleEditable(item) {
+    const profileInput = item.querySelector('.profile-text input');
+    
+    if (profileInput) {
+        // If in edit mode, collapse to text mode
+        collapseFields(item);
+    } else {
+        // Switch to input mode
+        expandFields(item);
+    }
+}
+
+function expandFields(item) {
+    const profileText = item.querySelector('.profile-text');
+    const bitrateText = item.querySelector('.bitrate-text');
+    const fpsText = item.querySelector('.fps-text');
+    const audioText = item.querySelector('.audio-text');
+
+    // Replace text content with input fields
+    profileText.innerHTML = `<input type="text" class="form-control" value="${profileText.textContent}" onblur="updateValue(this)">`;
+    bitrateText.innerHTML = `<input type="text" class="form-control" value="${bitrateText.textContent}" onblur="updateValue(this)">`;
+    fpsText.innerHTML = `<input type="text" class="form-control" value="${fpsText.textContent}" onblur="updateValue(this)">`;
+    audioText.innerHTML = `<input type="text" class="form-control" value="${audioText.textContent}" onblur="updateValue(this)">`;
+
+    item.classList.add('selected');
+}
+
+function collapseFields(item) {
+    const profileInput = item.querySelector('.profile-text input');
+    const bitrateInput = item.querySelector('.bitrate-text input');
+    const fpsInput = item.querySelector('.fps-text input');
+    const audioInput = item.querySelector('.audio-text input');
+
+    // Update text content with input values
+    item.querySelector('.profile-text').textContent = profileInput.value;
+    item.querySelector('.bitrate-text').textContent = bitrateInput.value;
+    item.querySelector('.fps-text').textContent = fpsInput.value;
+    item.querySelector('.audio-text').textContent = audioInput.value;
+
+    item.classList.remove('selected');
+}
+
+// Automatically update text on blur
+function updateValue(input) {
+    const parent = input.parentElement;
+    parent.textContent = input.value;
+}
+
+
+    </script>
+
+
+
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            let isValid = true;
+
+            // Iterate through each dynamically added profile
+            document.querySelectorAll('.collapse').forEach(function(profile) {
+                const scaleX = profile.querySelector('input[name*="[scale_x]"]');
+                const scaleY = profile.querySelector('input[name*="[scale_y]"]');
+                const height = profile.querySelector('input[name*="[height]"]');
+                const width = profile.querySelector('input[name*="[width]"]');
+                const audioBitrate = profile.querySelector('input[name*="[audio_bitrate]"]');
+                const videoBitrate = profile.querySelector('input[name*="[video_bitrate]"]');
+
+                // Check if any of the fields are empty
+                if (
+                    !scaleX.value.trim() ||
+                    !scaleY.value.trim() ||
+                    !height.value.trim() ||
+                    !width.value.trim() ||
+                    !audioBitrate.value.trim() ||
+                    !videoBitrate.value.trim()
+                ) {
+                    isValid = false;
+
+                    // Add an error message if any field is empty
+                    alert('All fields in each profile must be filled out.');
+
+                    // Optionally, focus on the first empty field
+                    if (!scaleX.value.trim()) scaleX.focus();
+                    else if (!scaleY.value.trim()) scaleY.focus();
+                    else if (!height.value.trim()) height.focus();
+                    else if (!width.value.trim()) width.focus();
+                    else if (!audioBitrate.value.trim()) audioBitrate.focus();
+                    else if (!videoBitrate.value.trim()) videoBitrate.focus();
+
+                    // Stop further iteration
+                    return;
+                }
+            });
+
+            // Prevent form submission if validation failed
+            if (!isValid) {
+                e.preventDefault();
+            }
+        });
     </script>
 @endsection

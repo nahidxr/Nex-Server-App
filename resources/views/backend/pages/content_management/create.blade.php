@@ -166,6 +166,9 @@
             padding: 0;
             /* Remove padding */
         }
+        .selected {
+            background-color: #cce5ff; /* Light blue background for selected */
+        }
     </style>
 @endsection
 
@@ -216,61 +219,126 @@
                             </div>
 
 
-                            <!-- Profiles List Display -->
+                            {{-- <div class="row mt-4">
+                                <div class="col-12">
+                                    <h5>Profiles</h5>
+                                    <input type="hidden" id="selectedProfiles" name="selectedProfiles">
+                                    <div class="profiles-list" id="profilesList">
+                                        <div class="row">
+                                            @foreach ($profiles as $profile)
+                                                <div class="col-md-4">
+                                                    <ul class="list-group">
+                                                        <li class="list-group-item profile-item mt-2" data-profile="profile_{{ $profile->id }}">
+                                                            <span class="profile-header badge badge-info mb-2" data-id="{{ $profile->id }}">
+                                                                {{ $profile->name }}
+                                                            </span><br>
+                                                            <strong class="profile-text">Regulation {{ $profile->width }}x{{ $profile->height }}</strong> - 
+                                                            <span class="bitrate-text">Video bitrate {{ $profile->video_bitrate }}</span> - 
+                                                            <span class="fps-text">{{ $profile->frame_rate }}</span>
+                                                            <span class="audio-text">Audio bitrate {{ $profile->audio_bitrate }}</span>
+                                                            
+                                                            <!-- Container for dotted line and input fields -->
+                                                            <div class="profile-inputs-container" style="display: none;">
+                                                                <hr style="border: none; border-top: 1px dotted #ccc; margin: 10px 0;">
+                                                                <div class="profile-inputs">
+                                                                    <div class="form-group">
+                                                                        <label for="regulationHeight_{{ $profile->id }}">Regulation Height</label>
+                                                                        <input type="number" class="form-control" id="regulationHeight_{{ $profile->id }}" value="{{ $profile->height }}">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="width_{{ $profile->id }}">Width</label>
+                                                                        <input type="number" class="form-control" id="width_{{ $profile->id }}" value="{{ $profile->width }}">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="videoBitrate_{{ $profile->id }}">Video Bitrate (Kbps)</label>
+                                                                        <input type="text" class="form-control" id="videoBitrate_{{ $profile->id }}" value="{{ $profile->video_bitrate }}">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="audioBitrate_{{ $profile->id }}">Audio Bitrate (Kbps)</label>
+                                                                        <input type="text" class="form-control" id="audioBitrate_{{ $profile->id }}" value="{{ $profile->audio_bitrate }}">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="fps_{{ $profile->id }}">FPS</label>
+                                                                        <input type="number" class="form-control" id="fps_{{ $profile->id }}" value="{{ (int) $profile->frame_rate }}" readonly>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        
+                                                    </ul>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> --}}
+
                             <div class="row mt-4">
                                 <div class="col-12">
                                     <h5>Profiles</h5>
+                                    <input type="hidden" id="selectedProfiles" name="selectedProfiles">
                                     <div class="profiles-list" id="profilesList">
                                         <div class="row">
-                                            <div class="col-md-4">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item profile-item" data-profile="profile_1">
-                                                        <span class="badge badge-info">Profile 1</span><br>
-                                                        <strong>MPEG-4 1920x1080</strong> - 1.2 Mbps - 25 fps<br>
-                                                        <span>MPEG AAC LC - 128 Kbps</span>
-                                                    </li>
-                                                    <li class="list-group-item profile-item" data-profile="profile_2">
-                                                        <span class="badge badge-info">Profile 2</span><br>
-                                                        <strong>MPEG-4 1280x720</strong> - 1 Mbps - 25 fps<br>
-                                                        <span>MPEG AAC LC - 128 Kbps</span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item profile-item" data-profile="profile_3">
-                                                        <span class="badge badge-info">Profile 3</span><br>
-                                                        <strong>MPEG-4 854x480</strong> - 856 Kbps - 25 fps<br>
-                                                        <span>MPEG AAC LC - 128 Kbps</span>
-                                                    </li>
-                                                    <li class="list-group-item profile-item" data-profile="profile_4">
-                                                        <span class="badge badge-info">Profile 4</span><br>
-                                                        <strong>MPEG-4 640x360</strong> - 512 Kbps - 25 fps<br>
-                                                        <span>MPEG AAC LC - 128 Kbps</span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item profile-item" data-profile="profile_5">
-                                                        <span class="badge badge-info">Profile 5</span><br>
-                                                        <strong>MPEG-4 426x240</strong> - 360 Kbps - 25 fps<br>
-                                                        <span>MPEG AAC LC - 128 Kbps</span>
-                                                    </li>
-                                                    <li class="list-group-item profile-item" data-profile="profile_6">
-                                                        <span class="badge badge-info">Profile 6</span><br>
-                                                        <strong>MPEG-4 256x144</strong> - 180 Kbps - 25 fps<br>
-                                                        <span>MPEG AAC LC - 128 Kbps</span>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                            @foreach ($profiles as $profile)
+                                                <div class="col-md-4">
+                                                    <ul class="list-group">
+                                                        <li class="list-group-item profile-item mt-2" 
+                                                            data-profile-id="{{ $profile->id }}">
+                                                            <span class="profile-header badge badge-info mb-2" data-id="{{ $profile->id }}">
+                                                                {{ $profile->name }}
+                                                                <i class="fa fa-edit ml-1" aria-hidden="true" title="Edit"></i>
+                                                            </span><br>
+                                                            <strong class="profile-text">Regulation {{ $profile->width }}x{{ $profile->height }}</strong> - 
+                                                            <span class="bitrate-text">Video bitrate {{ $profile->video_bitrate }}</span> - 
+                                                            <span class="fps-text">{{ $profile->frame_rate }}</span> - 
+                                                            <span class="audio-text">Audio bitrate {{ $profile->audio_bitrate }}</span>
+                            
+                                                            <!-- Container for input fields (hidden initially) -->
+                                                            <div class="profile-inputs-container" style="display: none;">
+                                                                <hr style="border: none; border-top: 1px dotted #ccc; margin: 10px 0;">
+                                                                <div class="profile-inputs">
+                                                                    <div class="form-group">
+                                                                        <label for="regulationHeight_{{ $profile->id }}"> Height</label>
+                                                                        <input type="number" class="form-control" id="regulationHeight_{{ $profile->id }}" 
+                                                                               value="{{ $profile->height }}">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="width_{{ $profile->id }}">Width</label>
+                                                                        <input type="number" class="form-control" id="width_{{ $profile->id }}" 
+                                                                               value="{{ $profile->width }}">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="videoBitrate_{{ $profile->id }}">Video Bitrate</label>
+                                                                        <input type="text" class="form-control" id="videoBitrate_{{ $profile->id }}" 
+                                                                               value="{{ $profile->video_bitrate }}">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="audioBitrate_{{ $profile->id }}">Audio Bitrate</label>
+                                                                        <input type="text" class="form-control" id="audioBitrate_{{ $profile->id }}" 
+                                                                               value="{{ $profile->audio_bitrate }}">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="fps_{{ $profile->id }}">FPS</label>
+                                                                        <input type="number" class="form-control" id="fps_{{ $profile->id }}" 
+                                                                               value="{{ (int) $profile->frame_rate }}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            
+                            
+                            
+                            
+                            
 
-                            <!-- Hidden input to store selected profiles -->
-                            <input type="hidden" id="selectedProfiles" name="selected_profiles">
+
 
 
                             <!-- Profile Section -->
@@ -285,7 +353,15 @@
 
 
 
+                            <div class="row">
+                                <div class="col-6">
 
+                                </div class="col-6">
+                                <div>
+
+                                </div>
+
+                            </div>
                             <!-- File Upload Section -->
                             <div class="form-group">
                                 <label for="file-upload">Upload File:</label>
@@ -431,7 +507,11 @@
                 }
             }
 
-
+            // Toggle the 'selected' class on click
+            $('.profile-item').on('click', function () {
+                    $(this).toggleClass('selected');
+                });
+        
 
             $('#saveButton').on('click', function() {
 
@@ -439,8 +519,6 @@
                 $('#saveButton').prop('disabled', true);
                 spinner.show();
 
-
-                // Initialize an array to hold the profile data
                 let profilesData = [];
 
                 // Gather the profile data
@@ -448,17 +526,46 @@
                     const width = $(this).find('input[name*="[width]"]').val();
                     const height = $(this).find('input[name*="[height]"]').val();
                     const videoBitrate = $(this).find('input[name*="[video_bitrate]"]').val();
+                    const audioBitrate = $(this).find('input[name*="[audio_bitrate]"]').val();
+                    const fps = $(this).find('input[name*="[fps]"]').val();
+                   
 
                     profilesData.push({
                         width: width,
                         height: height,
-                        video_bitrate: videoBitrate
+                        video_bitrate: videoBitrate,
+                        audio_bitrate: audioBitrate,
+                        fps: fps
                     });
                 });
 
+                let selectedProfilesData = [];
+
+                // Gather data only from selected profile items
+                $('.profile-item.selected').each(function () {
+                    const profileId = $(this).data('profile-id');
+                    const width = $(this).find('input[id^="width_"]').val();
+                    const height = $(this).find('input[id^="regulationHeight_"]').val();
+                    const videoBitrate = $(this).find('input[id^="videoBitrate_"]').val();
+                    const audioBitrate = $(this).find('input[id^="audioBitrate_"]').val();
+                    const fps = $(this).find('input[id^="fps_"]').val();
+
+                    selectedProfilesData.push({
+                        id: profileId,
+                        width: width,
+                        height: height,
+                        video_bitrate: videoBitrate,
+                        audio_bitrate: audioBitrate,
+                        fps: fps,
+                    });
+                });
+
+
+    
+
                 // Get the file name from the input field
                 const fileTitle = $('#fileName').val();
-                const selectedProfiles = $('#selectedProfiles').val();
+                // const selectedProfiles = $('#selectedProfiles').val();
 
 
                 const dataToSend = {
@@ -467,7 +574,7 @@
                     file_name: fileName, // Include the file name here
                     file_path: uploadedVideoPath.split('/').slice(-3, -1).join('/'),
                     originalFileName: originalFileName,
-                    selected_profiles: selectedProfiles,
+                    selected_profiles: selectedProfilesData,
                 };
 
 
@@ -484,7 +591,7 @@
                         file_name: uploadedVideoPath.split('/').pop(), // Include the file name here
                         file_path: uploadedVideoPath.split('/').slice(-3, -1).join('/'),
                         originalFileName: originalFileName,
-                        selected_profiles: selectedProfiles,
+                        selected_profiles: selectedProfilesData,
                     },
                     success: function(response) {
                         // Call function to show the success message dynamically
@@ -559,33 +666,44 @@
             const newProfile = document.createElement('div');
             newProfile.classList.add('profile', 'mt-2');
             newProfile.innerHTML = `
-        <h5 data-toggle="collapse" class="profile-header" aria-expanded="false" aria-controls="collapseProfile${profileCount}"> Custom Profile ${profileCount}</h5>
-        <div id="collapseProfile${profileCount}" class="collapse mt-4">
-            <div class="row">
-                <div class="col">
-                    <label for="scaleX">Regulation Height</label>
-                    <input type="number" class="form-control" name="profiles[${profileCount}][width]" placeholder="Enter width" required>
-                </div>
-                <div class="col">
-                    <label for="scaleY">Regulation width</label>
-                    <input type="number" class="form-control" name="profiles[${profileCount}][height]" placeholder="Enter height" required>
-                </div>
-            </div>
-           
-            <div class="row mt-3">
-                <div class="col">
-                    <label for="videoBitrate">Video Bitrate(Kb)</label>
-                    <input type="number" class="form-control" name="profiles[${profileCount}][video_bitrate]" placeholder="Enter Video Bitrate" required>
-                </div>
-                <div class="col">
+                <h5 data-toggle="collapse" class="profile-header" aria-expanded="false" aria-controls="collapseProfile${profileCount}"> Custom Profile ${profileCount}</h5>
+                <div id="collapseProfile${profileCount}" class="collapse mt-4">
+                    <div class="row">
+                        <div class="col">
+                            <label for="scaleX">Regulation Width</label>
+                            <input type="number" class="form-control" name="profiles[${profileCount}][width]" placeholder="Enter width" required>
+                        </div>
+                        <div class="col">
+                            <label for="scaleY">Regulation Height</label>
+                            <input type="number" class="form-control" name="profiles[${profileCount}][height]" placeholder="Enter height" required>
+                        </div>
+                    </div>
+                
+                    <div class="row mt-3">
+                        <div class="col">
+                            <label for="videoBitrate">Video Bitrate(Kbps)</label>
+                            <input type="number" class="form-control" name="profiles[${profileCount}][video_bitrate]" placeholder="Enter Video Bitrate" required>
+                        </div>
+                        <div class="col">
+                          <label for="audioBitrate">Audio Bitrate(Kbps)</label>
+                            <input type="number" class="form-control" name="profiles[${profileCount}][audio_bitrate]" placeholder="Enter Audio Bitrate" required>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <label for="fps">Fps</label>
+                            <input type="number" class="form-control" name="profiles[${profileCount}][fps]" placeholder="Enter Video fps" required>
+                        </div>
+                        <div class="col">
+                           
+                        </div>
                    
+                    </div>
+                    <button type="button" class="btn btn-danger mt-3 remove-profile">
+                        <i class="ti-trash"></i> <!-- Trash icon for removing profile -->
+                    </button>
                 </div>
-            </div>
-            <button type="button" class="btn btn-danger mt-3 remove-profile">
-                <i class="ti-trash"></i> <!-- Trash icon for removing profile -->
-            </button>
-        </div>
-    `;
+            `;
 
             // Append the new profile to the container
             profileContainer.appendChild(newProfile);
@@ -635,46 +753,83 @@
         });
     </script>
 
-    <script>
-        const selectedProfilesInput = document.getElementById('selectedProfiles');
-        const profileItems = document.querySelectorAll('.profile-item');
 
-        let selectedProfiles = [];
 
-        // Toggle selection of profiles
-        profileItems.forEach(item => {
-            item.addEventListener('click', function() {
-                const profile = item.dataset.profile;
 
-                // Toggle selection
-                if (selectedProfiles.includes(profile)) {
-                    selectedProfiles = selectedProfiles.filter(p => p !== profile);
-                    item.classList.remove('selected'); // Remove highlight
-                } else {
-                    selectedProfiles.push(profile);
-                    item.classList.add('selected'); // Add highlight
-                }
+<script>
+ $(document).ready(function() {
+    let selectedProfiles = []; // Array to hold selected profile objects
 
-                // Update hidden input with selected profiles
-                selectedProfilesInput.value = selectedProfiles.join(',');
+    // Click event for the profile header (badge)
+    $('.profile-header').on('click', function(event) {
+        const profileContainer = $(this).closest('li').find('.profile-inputs-container');
+        profileContainer.toggle(); // Toggle the visibility of the input fields
+        event.stopPropagation(); // Prevent the event from bubbling up to the profile item
+    });
 
-                // Log selected profiles to the console
-                console.log("Selected profiles:", selectedProfiles);
-            });
-        });
+    // Click event for the profile inputs (prevent selection)
+    $('.profile-inputs-container').on('click', function(event) {
+        event.stopPropagation(); // Prevent event from bubbling to parent profile item
+    });
 
-        // Add styles to indicate selected profiles
-        document.addEventListener('DOMContentLoaded', function() {
-            const style = document.createElement('style');
-            style.innerHTML = `
-            .profile-item.selected {
-                background-color: #17a2b8;
-                color: #fff;
-            }
-        `;
-            document.head.appendChild(style);
-        });
-    </script>
+    // Click event for the profile item
+    $('.profile-item').on('click', function(event) {
+        const profileId = $(this).find('.profile-header').data('id'); // Get the profile ID from the badge
+
+        // Toggle selection
+        const index = selectedProfiles.findIndex(profile => profile.id === profileId);
+        if (index > -1) {
+            // If already selected, deselect it
+            selectedProfiles.splice(index, 1); // Remove from array
+            $(this).removeClass('selected'); // Remove selected style
+            console.log('Deselected profile ID:', profileId);
+        } else {
+            // If not selected, select it
+            const regulationHeight = $('#regulationHeight_' + profileId).val();
+            const width = $('#width_' + profileId).val();
+            const videoBitrate = $('#videoBitrate_' + profileId).val();
+            const audioBitrate = $('#audioBitrate_' + profileId).val();
+            const fps = $('#fps_' + profileId).val();
+
+            selectedProfiles.push({
+                id: profileId,
+                width: width,
+                height: regulationHeight,
+                videoBitrate: videoBitrate,
+                audioBitrate: audioBitrate,
+                fps: fps
+            }); // Add object to array
+            $(this).addClass('selected'); // Add selected style
+            console.log('Selected profile ID:', profileId);
+        }
+
+        // Log the current state of selectedProfiles array
+        console.log('Current selected profiles:', selectedProfiles);
+
+        // Update the hidden input field with selected profiles
+        $('#selectedProfiles').val(JSON.stringify(selectedProfiles)); // Convert array to JSON string
+    });
+
+    $('.profile-inputs input').on('input', function() {
+        const profileId = $(this).closest('.profile-inputs-container').siblings('.profile-item').data('profile').split('_')[1];
+        
+        // Get the current values from the inputs
+        const regulationHeight = $('#regulationHeight_' + profileId).val();
+        const width = $('#width_' + profileId).val();
+        const videoBitrate = $('#videoBitrate_' + profileId).val();
+        const audioBitrate = $('#audioBitrate_' + profileId).val();
+        const fps = $('#fps_' + profileId).val();
+
+        // Update the corresponding text elements
+        const profileItem = $(this).closest('.profile-inputs-container').siblings('.profile-item');
+        profileItem.find('.profile-text').html(`Regulation ${width}x${regulationHeight}`);
+        profileItem.find('.bitrate-text').html(`Video bitrate ${videoBitrate}`);
+        profileItem.find('.fps-text').html(`${fps}`);
+        profileItem.find('.audio-text').html(`Audio bitrate ${audioBitrate}`);
+    });
+});
+
+</script>
 
 
 

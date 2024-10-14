@@ -134,28 +134,64 @@ class FileUploadController extends Controller
 
     protected function saveFileToBucket(Request $request)
     {
+
+        return $request;
+
+         // Check if the 'profiles' array is present in the request
+        $hasCustomProfiles = $request->has('profiles');
+        
         $validated = $request->validate([
             'file_name' => 'required|string|max:255', // Validate file name
             'file_title' => 'required|string|max:255', // Validate file name
             'file_path' => 'required|string', // Validate file path
             'originalFileName' => 'required|string|max:255' ,
-           
+            'profiles' => $hasCustomProfiles ? 'required|array' : 'nullable|array', // Custom profiles are required only if they exist
+            'profiles.*.width' => $hasCustomProfiles ? 'required|numeric' : 'nullable|numeric', // Validate scale_x only if custom profiles are provided
+            'profiles.*.height' => $hasCustomProfiles ? 'required|numeric' : 'nullable|numeric', // Validate scale_y only if custom profiles are provided
+            'profiles.*.video_bitrate' => $hasCustomProfiles ? 'required|integer' : 'nullable|integer', // Validate video_bitrate only if custom profiles are provided
+            'selected_profiles' => 'nullable|string', // Validate selected profiles (comma-separated string), optional
         ]);
 
-            // Ensure that at least one of 'profiles' or 'selected_profiles' is provided
-            if (empty($request->input('profiles')) && empty($request->input('selected_profiles'))) {
-                $message = 'Either profiles or selected_profiles must be provided.';
 
-                return response()->json(['message' => $message, 'status' => 'danger'], 422);
+            // Ensure at least one of profiles or selected_profiles is provided
+            if (empty($validated['profiles']) && empty($validated['selected_profiles'])) {
+                return response()->json(['error' => 'Either custom profiles or selected profiles must be provided.'], 422);
             }
 
-                // Process and merge profiles into a single array
-                $finalProfiles = $this->mergeProfiles(
-                    $request->input('profiles', []),  // Default to an empty array if null
-                    $request->input('selected_profiles', [])
-                );
+            // Define the mapping for selected profiles
+            $profileMapping = [
+                'profile_1' => ['height' => 1080, 'width' => 1920, 'video_bitrate' => 1200], // 1.2 Mbps in kbps
+                'profile_2' => ['height' => 720, 'width' => 1280, 'video_bitrate' => 1000], // 1 Mbps in kbps
+                'profile_3' => ['height' => 576, 'width' => 720, 'video_bitrate' => 856],
+                'profile_4' => ['height' => 360, 'width' => 640, 'video_bitrate' => 512],
+                'profile_5' => ['height' => 240, 'width' => 426, 'video_bitrate' => 360],
+                'profile_6' => ['height' => 160, 'width' => 284, 'video_bitrate' => 360],
+            ];
 
-           
+            // Initialize final profiles array
+            $finalProfiles = [];
+
+            // Process selected profiles
+            if (!empty($validated['selected_profiles'])) {
+                $selectedProfiles = explode(',', $validated['selected_profiles']);
+                foreach ($selectedProfiles as $profile) {
+                    $profile = trim($profile); // Clean any extra whitespace
+                    if (isset($profileMapping[$profile])) {
+                        $finalProfiles[] = $profileMapping[$profile];
+                    }
+                }
+            }
+
+            // Process custom profiles if provided
+            if (!empty($validated['profiles'])) {
+                foreach ($validated['profiles'] as $customProfile) {
+                    $finalProfiles[] = [
+                        'height' => (int)$customProfile['height'],
+                        'width' => (int)$customProfile['width'],
+                        'video_bitrate' => (int)$customProfile['video_bitrate'],
+                    ];
+                }
+            }
 
 
         // Get the uploaded file
@@ -221,42 +257,7 @@ class FileUploadController extends Controller
             return response()->json(['message' => $error, 'status' => 'error'], 500);
         }
     }
-    private function mergeProfiles(?array $profiles = [], ?array $selectedProfiles = []): array
-    {
-        // Ensure both inputs are arrays
-        $profiles = $profiles ?? [];
-        $selectedProfiles = $selectedProfiles ?? [];
 
-        // Convert selected profiles and merge with standard profiles
-        $convertedSelectedProfiles = array_map(function ($profile) {
-            return [
-                'width' => (string) $profile['width'],
-                'height' => (string) $profile['height'],
-                'audio_bitrate' => (string) $this->extractBitrate($profile['audio_bitrate']),
-                'video_bitrate' => (string) $this->extractBitrate($profile['video_bitrate']),
-                'fps' => (string) $profile['fps'],
-            ];
-        }, $selectedProfiles);
-
-        // Merge both profile arrays
-        return array_merge($profiles, $convertedSelectedProfiles);
-    }
-    
-    /**
-     * Extract bitrate from string, converting Mbps to Kbps when necessary.
-     */
-    private function extractBitrate(string $bitrate): int
-    {
-        $bitrate = strtolower($bitrate);
-    
-        // Convert Mbps to Kbps if necessary
-        if (str_contains($bitrate, 'mbps')) {
-            return (int) ((float) filter_var($bitrate, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION) * 1000);
-        }
-    
-        // Extract and return integer value for Kbps
-        return (int) filter_var($bitrate, FILTER_SANITIZE_NUMBER_INT);
-    }
 
     /**
      * Create unique filename for uploaded file

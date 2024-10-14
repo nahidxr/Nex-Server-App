@@ -98,6 +98,77 @@
             background-color: #dc3545;
             color: white;
         }
+
+        .icon-button {
+            display: inline-flex;
+            /* Align the icon centrally */
+            align-items: center;
+            /* Center vertically */
+            justify-content: center;
+            /* Center horizontally */
+            padding: 5px;
+            /* Add padding for the button */
+            margin-left: 5px;
+            /* Space between label and button */
+            border: 1px solid #007bff;
+            /* Border color */
+            border-radius: 5px;
+            /* Rounded corners */
+            background-color: #f8f9fa;
+            /* Light background color */
+            color: #007bff;
+            /* Icon color */
+            cursor: pointer;
+            /* Change cursor on hover */
+            transition: background-color 0.2s, color 0.2s;
+            /* Animation for hover effect */
+        }
+
+        .icon-button:hover {
+            background-color: #e2e6ea;
+            /* Darker background on hover */
+            color: #0056b3;
+            /* Darker color on hover */
+        }
+
+        .icon-button i {
+            font-size: 1.5em;
+            /* Adjust the icon size */
+        }
+
+
+        .profiles-list {
+            margin-top: 20px;
+            /* Space above the profile list */
+        }
+
+        .list-group-item {
+            padding: 15px;
+            /* Padding for each item */
+            border: 1px solid #e0e0e0;
+            /* Border for each item */
+            border-radius: 5px;
+            /* Rounded corners */
+            margin-bottom: 10px;
+            /* Space between items */
+        }
+
+        .badge-info {
+            background-color: #17a2b8;
+            /* Bootstrap info color for profile labels */
+            color: #fff;
+            /* White text for contrast */
+        }
+
+        .list-group {
+            list-style: none;
+            /* Remove default list styling */
+            padding: 0;
+            /* Remove padding */
+        }
+        .selected {
+            background-color: #cce5ff; /* Light blue background for selected */
+        }
     </style>
 @endsection
 
@@ -148,18 +219,152 @@
                             </div>
 
 
+                            {{-- <div class="row mt-4">
+                                <div class="col-12">
+                                    <h5>Profiles</h5>
+                                    <input type="hidden" id="selectedProfiles" name="selectedProfiles">
+                                    <div class="profiles-list" id="profilesList">
+                                        <div class="row">
+                                            @foreach ($profiles as $profile)
+                                                <div class="col-md-4">
+                                                    <ul class="list-group">
+                                                        <li class="list-group-item profile-item mt-2" data-profile="profile_{{ $profile->id }}">
+                                                            <span class="profile-header badge badge-info mb-2" data-id="{{ $profile->id }}">
+                                                                {{ $profile->name }}
+                                                            </span><br>
+                                                            <strong class="profile-text">Regulation {{ $profile->width }}x{{ $profile->height }}</strong> - 
+                                                            <span class="bitrate-text">Video bitrate {{ $profile->video_bitrate }}</span> - 
+                                                            <span class="fps-text">{{ $profile->frame_rate }}</span>
+                                                            <span class="audio-text">Audio bitrate {{ $profile->audio_bitrate }}</span>
+                                                            
+                                                            <!-- Container for dotted line and input fields -->
+                                                            <div class="profile-inputs-container" style="display: none;">
+                                                                <hr style="border: none; border-top: 1px dotted #ccc; margin: 10px 0;">
+                                                                <div class="profile-inputs">
+                                                                    <div class="form-group">
+                                                                        <label for="regulationHeight_{{ $profile->id }}">Regulation Height</label>
+                                                                        <input type="number" class="form-control" id="regulationHeight_{{ $profile->id }}" value="{{ $profile->height }}">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="width_{{ $profile->id }}">Width</label>
+                                                                        <input type="number" class="form-control" id="width_{{ $profile->id }}" value="{{ $profile->width }}">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="videoBitrate_{{ $profile->id }}">Video Bitrate (Kbps)</label>
+                                                                        <input type="text" class="form-control" id="videoBitrate_{{ $profile->id }}" value="{{ $profile->video_bitrate }}">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="audioBitrate_{{ $profile->id }}">Audio Bitrate (Kbps)</label>
+                                                                        <input type="text" class="form-control" id="audioBitrate_{{ $profile->id }}" value="{{ $profile->audio_bitrate }}">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="fps_{{ $profile->id }}">FPS</label>
+                                                                        <input type="number" class="form-control" id="fps_{{ $profile->id }}" value="{{ (int) $profile->frame_rate }}" readonly>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        
+                                                    </ul>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> --}}
+
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <h5>Profiles</h5>
+                                    <input type="hidden" id="selectedProfiles" name="selectedProfiles">
+                                    <div class="profiles-list" id="profilesList">
+                                        <div class="row">
+                                            @foreach ($profiles as $profile)
+                                                <div class="col-md-4">
+                                                    <ul class="list-group">
+                                                        <li class="list-group-item profile-item mt-2" data-profile="profile_{{ $profile->id }}">
+                                                            <span class="profile-header badge badge-info mb-2" data-id="{{ $profile->id }}">
+                                                                {{ $profile->name }}
+                                                            </span><br>
+                                                            <strong class="profile-text">Regulation {{ $profile->width }}x{{ $profile->height }}</strong> - 
+                                                            <span class="bitrate-text">Video bitrate {{ $profile->video_bitrate }}</span> - 
+                                                            <span class="fps-text">{{ $profile->frame_rate }}</span>
+                                                            <span class="audio-text">Audio bitrate {{ $profile->audio_bitrate }}</span>
+                                                            
+                                                            <!-- Container for dotted line and input fields -->
+                                                            <div class="profile-inputs-container" style="display: none;">
+                                                                <hr style="border: none; border-top: 1px dotted #ccc; margin: 10px 0;">
+                                                                <div class="profile-inputs">
+                                                                    <div class="form-group">
+                                                                        <label for="regulationHeight_{{ $profile->id }}">Regulation Height</label>
+                                                                        <input type="number" class="form-control" id="regulationHeight_{{ $profile->id }}" value="{{ $profile->height }}">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="width_{{ $profile->id }}">Width</label>
+                                                                        <input type="number" class="form-control" id="width_{{ $profile->id }}" value="{{ $profile->width }}">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="videoBitrate_{{ $profile->id }}">Video Bitrate (Kbps)</label>
+                                                                        <input type="text" class="form-control" id="videoBitrate_{{ $profile->id }}" value="{{ $profile->video_bitrate }}">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="audioBitrate_{{ $profile->id }}">Audio Bitrate (Kbps)</label>
+                                                                        <input type="text" class="form-control" id="audioBitrate_{{ $profile->id }}" value="{{ $profile->audio_bitrate }}">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="fps_{{ $profile->id }}">FPS</label>
+                                                                        <input type="number" class="form-control" id="fps_{{ $profile->id }}" value="{{ (int) $profile->frame_rate }}" readonly>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                       
+
+
+
+                            
+
+                            <!-- Hidden input to store selected profiles -->
+                            <input type="hidden" id="selectedProfiles" name="selected_profiles">
+
+
                             <!-- Profile Section -->
-                            <div class="form-group" id="profileSection">
-                                <label>Profiles:</label>
+                            <div class="form-group mt-2" id="profileSection">
                                 <div id="profileContainer">
                                     <!-- No profiles will be displayed initially -->
                                 </div>
-                                <button type="button" id="addProfileButton" class="btn btn-success mt-2">+ Add
-                                    Profile</button>
+                                <button type="button" id="addProfileButton" class="btn btn-info mt-2">+ Add
+                                    Custom Profile</button>
                             </div>
 
 
 
+
+                            <div class="row">
+                                <div class="col-6">
+
+                                </div class="col-6">
+                                <div>
+
+                                </div>
+
+                            </div>
                             <!-- File Upload Section -->
                             <div class="form-group">
                                 <label for="file-upload">Upload File:</label>
@@ -319,25 +524,20 @@
 
                 // Gather the profile data
                 $('.profile').each(function() {
-                    const scaleX = $(this).find('input[name*="[scale_x]"]').val();
-                    const scaleY = $(this).find('input[name*="[scale_y]"]').val();
-                    const height = $(this).find('input[name*="[height]"]').val();
                     const width = $(this).find('input[name*="[width]"]').val();
-                    const audioBitrate = $(this).find('input[name*="[audio_bitrate]"]').val();
+                    const height = $(this).find('input[name*="[height]"]').val();
                     const videoBitrate = $(this).find('input[name*="[video_bitrate]"]').val();
 
                     profilesData.push({
-                        scale_x: scaleX,
-                        scale_y: scaleY,
-                        height: height,
                         width: width,
-                        audio_bitrate: audioBitrate,
+                        height: height,
                         video_bitrate: videoBitrate
                     });
                 });
 
                 // Get the file name from the input field
                 const fileTitle = $('#fileName').val();
+                const selectedProfiles = $('#selectedProfiles').val();
 
 
                 const dataToSend = {
@@ -346,6 +546,7 @@
                     file_name: fileName, // Include the file name here
                     file_path: uploadedVideoPath.split('/').slice(-3, -1).join('/'),
                     originalFileName: originalFileName,
+                    selected_profiles: selectedProfiles,
                 };
 
 
@@ -362,6 +563,7 @@
                         file_name: uploadedVideoPath.split('/').pop(), // Include the file name here
                         file_path: uploadedVideoPath.split('/').slice(-3, -1).join('/'),
                         originalFileName: originalFileName,
+                        selected_profiles: selectedProfiles,
                     },
                     success: function(response) {
                         // Call function to show the success message dynamically
@@ -409,8 +611,7 @@
     </script>
 
 
-
-    <script>
+    {{-- <script>
         let profileCount = 0; // Initialize count of profiles
 
         function updateProfileHeaders() {
@@ -420,10 +621,10 @@
                 const header = profile.querySelector('h5');
                 header.textContent = `Profile ${index + 1}`;
                 // Update input names accordingly
-                const inputs = profile.querySelectorAll('input, select'); // Include select in the input update
+                const inputs = profile.querySelectorAll('input');
                 inputs.forEach(input => {
                     const name = input.name.replace(/\[\d+\]/,
-                    `[${index}]`); // Replace index in name attribute
+                        `[${index}]`); // Replace index in name attribute
                     input.name = name;
                 });
             });
@@ -437,74 +638,33 @@
             const newProfile = document.createElement('div');
             newProfile.classList.add('profile', 'mt-2');
             newProfile.innerHTML = `
-        <h5 data-toggle="collapse" class="profile-header" aria-expanded="false" aria-controls="collapseProfile${profileCount}">
-            Profile ${profileCount}
-        </h5>
-        <div id="collapseProfile${profileCount}" class="collapse mt-4">
-            <div class="row">
-                <div class="col-6">
-                    <div class="col-12">
-                        <label for="regulation">Regulation</label>
-                        <select id="regulation" name="profiles[${profileCount}][regulation]" class="form-control" required>
-                            <option value="" disabled selected>Select Video Profile</option>
-                            <option value="1080p">1080p Full HD - 1920x1080 (1.2 Mbps, Audio 128 Kbps, 25 fps)</option>
-                            <option value="720p">720p HD - 1280x720 (1 Mbps, Audio 128 Kbps, 25 fps)</option>
-                            <option value="576p">576p SD - 720x576 (856kbps, Audio 128 Kbps, 25 fps)</option>
-                            <option value="360p">360p Low Definition - 640x360 (512 Kbps, Audio 128 Kbps, 25 fps)</option>
-                            <option value="240p">240p Very Low Definition - 426x240 (360 Kbps, Audio 128 Kbps, 25 fps)</option>
-                            <option value="160p">160p Minimal Definition - 284x160 (180 Kbps, Audio 128 Kbps, 25 fps)</option>
-                        </select>
+                <h5 data-toggle="collapse" class="profile-header" aria-expanded="false" aria-controls="collapseProfile${profileCount}"> Custom Profile ${profileCount}</h5>
+                <div id="collapseProfile${profileCount}" class="collapse mt-4">
+                    <div class="row">
+                        <div class="col">
+                            <label for="scaleX">Regulation Width</label>
+                            <input type="number" class="form-control" name="profiles[${profileCount}][width]" placeholder="Enter width" required>
+                        </div>
+                        <div class="col">
+                            <label for="scaleY">Regulation Height</label>
+                            <input type="number" class="form-control" name="profiles[${profileCount}][height]" placeholder="Enter height" required>
+                        </div>
                     </div>
-                    <div class="col-12">
-                        <label for="customField">Custom Field</label>
-                        <span class="icon" style="cursor:pointer;" onclick="handleCustomFieldClick(${profileCount})">
-                            <i class="ti-plus"></i> <!-- Custom icon for adding a custom field -->
-                        </span>
+                
+                    <div class="row mt-3">
+                        <div class="col">
+                            <label for="videoBitrate">Video Bitrate(Kb)</label>
+                            <input type="number" class="form-control" name="profiles[${profileCount}][video_bitrate]" placeholder="Enter Video Bitrate" required>
+                        </div>
+                        <div class="col">
+                        
+                        </div>
                     </div>
+                    <button type="button" class="btn btn-danger mt-3 remove-profile">
+                        <i class="ti-trash"></i> <!-- Trash icon for removing profile -->
+                    </button>
                 </div>
-                <div class="col-6">
-
-                    add something
-                </div>
-               
-            </div>
-            <div id="profileDetails${profileCount}" class="collapse mt-3">
-                <div class="row">
-                    <div class="col">
-                        <label for="scaleX">Scale X</label>
-                        <input type="number" class="form-control" name="profiles[${profileCount}][scale_x]" placeholder="Enter Scale X" required>
-                    </div>
-                    <div class="col">
-                        <label for="scaleY">Scale Y</label>
-                        <input type="number" class="form-control" name="profiles[${profileCount}][scale_y]" placeholder="Enter Scale Y" required>
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col">
-                        <label for="height">Height</label>
-                        <input type="number" class="form-control" name="profiles[${profileCount}][height]" placeholder="Enter Height" required>
-                    </div>
-                    <div class="col">
-                        <label for="width">Width</label>
-                        <input type="number" class="form-control" name="profiles[${profileCount}][width]" placeholder="Enter Width" required>
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col">
-                        <label for="audioBitrate">Audio Bitrate (Kb)</label>
-                        <input type="number" class="form-control" name="profiles[${profileCount}][audio_bitrate]" placeholder="Enter Audio Bitrate" required>
-                    </div>
-                    <div class="col">
-                        <label for="videoBitrate">Video Bitrate (Kb)</label>
-                        <input type="number" class="form-control" name="profiles[${profileCount}][video_bitrate]" placeholder="Enter Video Bitrate" required>
-                    </div>
-                </div>
-            </div>
-            <button type="button" class="btn btn-danger mt-3 remove-profile">
-                <i class="ti-trash"></i> <!-- Trash icon for removing profile -->
-            </button>
-        </div>
-        `;
+            `;
 
             // Append the new profile to the container
             profileContainer.appendChild(newProfile);
@@ -521,18 +681,13 @@
             updateProfileHeaders();
         });
 
-        // Function to handle custom field click
-        function handleCustomFieldClick(profileCount) {
-            const regulationField = document.querySelector(`#regulation`).parentElement; // Regulation parent element
-            regulationField.style.display = 'none'; // Hide regulation
-            const profileDetails = document.querySelector(`#profileDetails${profileCount}`);
-            profileDetails.classList.add('show'); // Show custom field details
-        }
+
+
 
         // Event delegation to handle remove buttons
         document.getElementById('profileContainer').addEventListener('click', function(e) {
             if (e.target && (e.target.classList.contains('remove-profile') || e.target.closest(
-                '.remove-profile'))) {
+                    '.remove-profile'))) {
                 e.target.closest('.profile').remove();
                 // Update profile headers after removal
                 updateProfileHeaders();
@@ -557,7 +712,85 @@
                 }
             }
         });
-    </script>
+    </script> --}}
+
+{{-- <script>
+    $(document).ready(function() {
+        $('.profile-header').on('click', function() {
+            const profileContainer = $(this).closest('li').find('.profile-inputs-container');
+            profileContainer.toggle(); // Toggle the visibility
+        });
+    });
+</script> --}}
+
+
+
+
+
+<script>
+  $(document).ready(function() {
+    let selectedProfiles = []; // Array to hold selected profile IDs
+
+    // Click event for the profile header (badge)
+    $('.profile-header').on('click', function(event) {
+        const profileContainer = $(this).closest('li').find('.profile-inputs-container');
+        profileContainer.toggle(); // Toggle the visibility of the input fields
+
+        event.stopPropagation(); // Prevent the event from bubbling up to the profile item
+    });
+
+    // Click event for the profile inputs (prevent selection)
+    $('.profile-inputs-container').on('click', function(event) {
+        event.stopPropagation(); // Prevent event from bubbling to parent profile item
+    });
+
+    // Click event for the profile item
+    $('.profile-item').on('click', function(event) {
+        const profileId = $(this).find('.profile-header').data('id'); // Get the profile ID from the badge
+        
+        // Toggle selection
+        const index = selectedProfiles.indexOf(profileId);
+        if (index > -1) {
+            // If already selected, deselect it
+            selectedProfiles.splice(index, 1); // Remove from array
+            $(this).removeClass('selected'); // Remove selected style
+            console.log('Deselected profile ID:', profileId);
+        } else {
+            // If not selected, select it
+            selectedProfiles.push(profileId); // Add to array
+            $(this).addClass('selected'); // Add selected style
+            console.log('Selected profile ID:', profileId);
+        }
+
+        // Log the current state of selectedProfiles array
+        console.log('Current selected profiles:', selectedProfiles);
+
+        // Update the hidden input field with selected profiles
+        $('#selectedProfiles').val(selectedProfiles.join(',')); // Convert array to comma-separated string
+    });
+
+    $('.profile-inputs input').on('input', function() {
+        const profileId = $(this).closest('.profile-inputs-container').siblings('.profile-item').data('profile').split('_')[1];
+        
+        // Get the current values from the inputs
+        const regulationHeight = $('#regulationHeight_' + profileId).val();
+        const width = $('#width_' + profileId).val();
+        const videoBitrate = $('#videoBitrate_' + profileId).val();
+        const audioBitrate = $('#audioBitrate_' + profileId).val();
+        const fps = $('#fps_' + profileId).val();
+
+        // Update the corresponding text elements
+        const profileItem = $(this).closest('.profile-inputs-container').siblings('.profile-item');
+        profileItem.find('.profile-text').html(`Regulation ${width}x${regulationHeight}`);
+        profileItem.find('.bitrate-text').html(`Video bitrate ${videoBitrate}`);
+        profileItem.find('.fps-text').html(`${fps}`);
+        profileItem.find('.audio-text').html(`Audio bitrate ${audioBitrate}`);
+    });
+});
+</script>
+
+
+
 
     <script>
         document.getElementById('uploadForm').addEventListener('submit', function(e) {
