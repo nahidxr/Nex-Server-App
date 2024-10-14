@@ -166,8 +166,10 @@
             padding: 0;
             /* Remove padding */
         }
+
         .selected {
-            background-color: #cce5ff; /* Light blue background for selected */
+            background-color: #cce5ff;
+            /* Light blue background for selected */
         }
     </style>
 @endsection
@@ -282,45 +284,60 @@
                                             @foreach ($profiles as $profile)
                                                 <div class="col-md-4">
                                                     <ul class="list-group">
-                                                        <li class="list-group-item profile-item mt-2" 
+                                                        <li class="list-group-item profile-item mt-2"
                                                             data-profile-id="{{ $profile->id }}">
-                                                            <span class="profile-header badge badge-info mb-2" data-id="{{ $profile->id }}">
+                                                            <span class="profile-header badge badge-info mb-2"
+                                                                data-id="{{ $profile->id }}">
                                                                 {{ $profile->name }}
-                                                                <i class="fa fa-edit ml-1" aria-hidden="true" title="Edit"></i>
+                                                                <i class="fa fa-edit ml-1" aria-hidden="true"
+                                                                    title="Edit"></i>
                                                             </span><br>
-                                                            <strong class="profile-text">Regulation {{ $profile->width }}x{{ $profile->height }}</strong> - 
-                                                            <span class="bitrate-text">Video bitrate {{ $profile->video_bitrate }}</span> - 
-                                                            <span class="fps-text">{{ $profile->frame_rate }}</span> - 
-                                                            <span class="audio-text">Audio bitrate {{ $profile->audio_bitrate }}</span>
-                            
+                                                            <strong class="profile-text">Regulation
+                                                                {{ $profile->width }}x{{ $profile->height }}</strong> -
+                                                            <span class="bitrate-text">Video bitrate
+                                                                {{ $profile->video_bitrate }}</span> -
+                                                            <span class="fps-text">{{ $profile->frame_rate }}</span> -
+                                                            <span class="audio-text">Audio bitrate
+                                                                {{ $profile->audio_bitrate }}</span>
+
                                                             <!-- Container for input fields (hidden initially) -->
                                                             <div class="profile-inputs-container" style="display: none;">
-                                                                <hr style="border: none; border-top: 1px dotted #ccc; margin: 10px 0;">
+                                                                <hr
+                                                                    style="border: none; border-top: 1px dotted #ccc; margin: 10px 0;">
                                                                 <div class="profile-inputs">
                                                                     <div class="form-group">
-                                                                        <label for="regulationHeight_{{ $profile->id }}"> Height</label>
-                                                                        <input type="number" class="form-control" id="regulationHeight_{{ $profile->id }}" 
-                                                                               value="{{ $profile->height }}">
+                                                                        <label for="regulationHeight_{{ $profile->id }}">
+                                                                            Height</label>
+                                                                        <input type="number" class="form-control"
+                                                                            id="regulationHeight_{{ $profile->id }}"
+                                                                            value="{{ $profile->height }}">
                                                                     </div>
                                                                     <div class="form-group">
-                                                                        <label for="width_{{ $profile->id }}">Width</label>
-                                                                        <input type="number" class="form-control" id="width_{{ $profile->id }}" 
-                                                                               value="{{ $profile->width }}">
+                                                                        <label
+                                                                            for="width_{{ $profile->id }}">Width</label>
+                                                                        <input type="number" class="form-control"
+                                                                            id="width_{{ $profile->id }}"
+                                                                            value="{{ $profile->width }}">
                                                                     </div>
                                                                     <div class="form-group">
-                                                                        <label for="videoBitrate_{{ $profile->id }}">Video Bitrate</label>
-                                                                        <input type="text" class="form-control" id="videoBitrate_{{ $profile->id }}" 
-                                                                               value="{{ $profile->video_bitrate }}">
+                                                                        <label for="videoBitrate_{{ $profile->id }}">Video
+                                                                            Bitrate</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="videoBitrate_{{ $profile->id }}"
+                                                                            value="{{ $profile->video_bitrate }}">
                                                                     </div>
                                                                     <div class="form-group">
-                                                                        <label for="audioBitrate_{{ $profile->id }}">Audio Bitrate</label>
-                                                                        <input type="text" class="form-control" id="audioBitrate_{{ $profile->id }}" 
-                                                                               value="{{ $profile->audio_bitrate }}">
+                                                                        <label for="audioBitrate_{{ $profile->id }}">Audio
+                                                                            Bitrate</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="audioBitrate_{{ $profile->id }}"
+                                                                            value="{{ $profile->audio_bitrate }}">
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label for="fps_{{ $profile->id }}">FPS</label>
-                                                                        <input type="number" class="form-control" id="fps_{{ $profile->id }}" 
-                                                                               value="{{ (int) $profile->frame_rate }}">
+                                                                        <input type="number" class="form-control"
+                                                                            id="fps_{{ $profile->id }}"
+                                                                            value="{{ (int) $profile->frame_rate }}">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -332,11 +349,11 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                            
-                            
-                            
-                            
+
+
+
+
+
 
 
 
@@ -372,7 +389,8 @@
                                     <label class="btn upload-button" for="file-upload" id="browseFileButton">
                                         <i class="bi bi-folder2-open"></i> Browse Files
                                     </label>
-                                    <input type="file" id="file-upload" name="file" style="display: none;" required>
+                                    <input type="file" id="file-upload" name="file" style="display: none;"
+                                        required>
                                     <div class="upload-text" id="uploadText">
                                         Click to upload video
                                     </div>
@@ -508,10 +526,10 @@
             }
 
             // Toggle the 'selected' class on click
-            $('.profile-item').on('click', function () {
-                    $(this).toggleClass('selected');
-                });
-        
+            $('.profile-item').on('click', function() {
+                $(this).toggleClass('selected');
+            });
+
 
             $('#saveButton').on('click', function() {
 
@@ -528,7 +546,7 @@
                     const videoBitrate = $(this).find('input[name*="[video_bitrate]"]').val();
                     const audioBitrate = $(this).find('input[name*="[audio_bitrate]"]').val();
                     const fps = $(this).find('input[name*="[fps]"]').val();
-                   
+
 
                     profilesData.push({
                         width: width,
@@ -542,7 +560,7 @@
                 let selectedProfilesData = [];
 
                 // Gather data only from selected profile items
-                $('.profile-item.selected').each(function () {
+                $('.profile-item.selected').each(function() {
                     const profileId = $(this).data('profile-id');
                     const width = $(this).find('input[id^="width_"]').val();
                     const height = $(this).find('input[id^="regulationHeight_"]').val();
@@ -561,7 +579,7 @@
                 });
 
 
-    
+
 
                 // Get the file name from the input field
                 const fileTitle = $('#fileName').val();
@@ -756,80 +774,82 @@
 
 
 
-<script>
- $(document).ready(function() {
-    let selectedProfiles = []; // Array to hold selected profile objects
+    <script>
+        $(document).ready(function() {
+            let selectedProfiles = []; // Array to hold selected profile objects
 
-    // Click event for the profile header (badge)
-    $('.profile-header').on('click', function(event) {
-        const profileContainer = $(this).closest('li').find('.profile-inputs-container');
-        profileContainer.toggle(); // Toggle the visibility of the input fields
-        event.stopPropagation(); // Prevent the event from bubbling up to the profile item
-    });
+            // Click event for the profile header (badge)
+            $('.profile-header').on('click', function(event) {
+                const profileContainer = $(this).closest('li').find('.profile-inputs-container');
+                profileContainer.toggle(); // Toggle the visibility of the input fields
+                event.stopPropagation(); // Prevent the event from bubbling up to the profile item
+            });
 
-    // Click event for the profile inputs (prevent selection)
-    $('.profile-inputs-container').on('click', function(event) {
-        event.stopPropagation(); // Prevent event from bubbling to parent profile item
-    });
+            // Click event for the profile inputs (prevent selection)
+            $('.profile-inputs-container').on('click', function(event) {
+                event.stopPropagation(); // Prevent event from bubbling to parent profile item
+            });
 
-    // Click event for the profile item
-    $('.profile-item').on('click', function(event) {
-        const profileId = $(this).find('.profile-header').data('id'); // Get the profile ID from the badge
+            // Click event for the profile item
+            $('.profile-item').on('click', function(event) {
+                const profileId = $(this).find('.profile-header').data(
+                'id'); // Get the profile ID from the badge
 
-        // Toggle selection
-        const index = selectedProfiles.findIndex(profile => profile.id === profileId);
-        if (index > -1) {
-            // If already selected, deselect it
-            selectedProfiles.splice(index, 1); // Remove from array
-            $(this).removeClass('selected'); // Remove selected style
-            console.log('Deselected profile ID:', profileId);
-        } else {
-            // If not selected, select it
-            const regulationHeight = $('#regulationHeight_' + profileId).val();
-            const width = $('#width_' + profileId).val();
-            const videoBitrate = $('#videoBitrate_' + profileId).val();
-            const audioBitrate = $('#audioBitrate_' + profileId).val();
-            const fps = $('#fps_' + profileId).val();
+                // Toggle selection
+                const index = selectedProfiles.findIndex(profile => profile.id === profileId);
+                if (index > -1) {
+                    // If already selected, deselect it
+                    selectedProfiles.splice(index, 1); // Remove from array
+                    $(this).removeClass('selected'); // Remove selected style
+                    console.log('Deselected profile ID:', profileId);
+                } else {
+                    // If not selected, select it
+                    const regulationHeight = $('#regulationHeight_' + profileId).val();
+                    const width = $('#width_' + profileId).val();
+                    const videoBitrate = $('#videoBitrate_' + profileId).val();
+                    const audioBitrate = $('#audioBitrate_' + profileId).val();
+                    const fps = $('#fps_' + profileId).val();
 
-            selectedProfiles.push({
-                id: profileId,
-                width: width,
-                height: regulationHeight,
-                videoBitrate: videoBitrate,
-                audioBitrate: audioBitrate,
-                fps: fps
-            }); // Add object to array
-            $(this).addClass('selected'); // Add selected style
-            console.log('Selected profile ID:', profileId);
-        }
+                    selectedProfiles.push({
+                        id: profileId,
+                        width: width,
+                        height: regulationHeight,
+                        videoBitrate: videoBitrate,
+                        audioBitrate: audioBitrate,
+                        fps: fps
+                    }); // Add object to array
+                    $(this).addClass('selected'); // Add selected style
+                    console.log('Selected profile ID:', profileId);
+                }
 
-        // Log the current state of selectedProfiles array
-        console.log('Current selected profiles:', selectedProfiles);
+                // Log the current state of selectedProfiles array
+                console.log('Current selected profiles:', selectedProfiles);
 
-        // Update the hidden input field with selected profiles
-        $('#selectedProfiles').val(JSON.stringify(selectedProfiles)); // Convert array to JSON string
-    });
+                // Update the hidden input field with selected profiles
+                $('#selectedProfiles').val(JSON.stringify(
+                selectedProfiles)); // Convert array to JSON string
+            });
 
-    $('.profile-inputs input').on('input', function() {
-        const profileId = $(this).closest('.profile-inputs-container').siblings('.profile-item').data('profile').split('_')[1];
-        
-        // Get the current values from the inputs
-        const regulationHeight = $('#regulationHeight_' + profileId).val();
-        const width = $('#width_' + profileId).val();
-        const videoBitrate = $('#videoBitrate_' + profileId).val();
-        const audioBitrate = $('#audioBitrate_' + profileId).val();
-        const fps = $('#fps_' + profileId).val();
+            $('.profile-inputs input').on('input', function() {
+                const profileId = $(this).closest('.profile-inputs-container').siblings('.profile-item')
+                    .data('profile').split('_')[1];
 
-        // Update the corresponding text elements
-        const profileItem = $(this).closest('.profile-inputs-container').siblings('.profile-item');
-        profileItem.find('.profile-text').html(`Regulation ${width}x${regulationHeight}`);
-        profileItem.find('.bitrate-text').html(`Video bitrate ${videoBitrate}`);
-        profileItem.find('.fps-text').html(`${fps}`);
-        profileItem.find('.audio-text').html(`Audio bitrate ${audioBitrate}`);
-    });
-});
+                // Get the current values from the inputs
+                const regulationHeight = $('#regulationHeight_' + profileId).val();
+                const width = $('#width_' + profileId).val();
+                const videoBitrate = $('#videoBitrate_' + profileId).val();
+                const audioBitrate = $('#audioBitrate_' + profileId).val();
+                const fps = $('#fps_' + profileId).val();
 
-</script>
+                // Update the corresponding text elements
+                const profileItem = $(this).closest('.profile-inputs-container').siblings('.profile-item');
+                profileItem.find('.profile-text').html(`Regulation ${width}x${regulationHeight}`);
+                profileItem.find('.bitrate-text').html(`Video bitrate ${videoBitrate}`);
+                profileItem.find('.fps-text').html(`${fps}`);
+                profileItem.find('.audio-text').html(`Audio bitrate ${audioBitrate}`);
+            });
+        });
+    </script>
 
 
 

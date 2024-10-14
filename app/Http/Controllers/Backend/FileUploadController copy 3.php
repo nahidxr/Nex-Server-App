@@ -135,7 +135,6 @@ class FileUploadController extends Controller
     protected function saveFileToBucket(Request $request)
     {
 
-        return $request;
 
          // Check if the 'profiles' array is present in the request
         $hasCustomProfiles = $request->has('profiles');
@@ -149,6 +148,8 @@ class FileUploadController extends Controller
             'profiles.*.width' => $hasCustomProfiles ? 'required|numeric' : 'nullable|numeric', // Validate scale_x only if custom profiles are provided
             'profiles.*.height' => $hasCustomProfiles ? 'required|numeric' : 'nullable|numeric', // Validate scale_y only if custom profiles are provided
             'profiles.*.video_bitrate' => $hasCustomProfiles ? 'required|integer' : 'nullable|integer', // Validate video_bitrate only if custom profiles are provided
+            'profiles.*.audio_bitrate' => $hasCustomProfiles ? 'required|integer' : 'nullable|integer', // Validate video_bitrate only if custom profiles are provided
+            'profiles.*.fps' => $hasCustomProfiles ? 'required|integer' : 'nullable|integer', // Validate video_bitrate only if custom profiles are provided
             'selected_profiles' => 'nullable|string', // Validate selected profiles (comma-separated string), optional
         ]);
 
