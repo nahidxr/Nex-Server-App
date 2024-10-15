@@ -290,7 +290,7 @@
                             </div>
 
                             <!-- Profile Section -->
-                            <div class="form-group mt-2" id="profileSection">
+                            <div class="form-group mt-4" id="profileSection">
                                 <div id="profileContainer">
                                     <!-- No profiles will be displayed initially -->
                                 </div>
@@ -360,39 +360,39 @@
         const profiles = @json($profiles); // Pass PHP profiles data to JavaScript
 
         profiles.forEach(profile => {
-    const heightInput = document.getElementById(`regulationHeight_${profile.id}`);
-    const widthInput = document.getElementById(`width_${profile.id}`);
-    const videoBitrateInput = document.getElementById(`videoBitrate_${profile.id}`);
-    const audioBitrateInput = document.getElementById(`audioBitrate_${profile.id}`);
-    const fpsInput = document.getElementById(`fps_${profile.id}`);
+            const heightInput = document.getElementById(`regulationHeight_${profile.id}`);
+            const widthInput = document.getElementById(`width_${profile.id}`);
+            const videoBitrateInput = document.getElementById(`videoBitrate_${profile.id}`);
+            const audioBitrateInput = document.getElementById(`audioBitrate_${profile.id}`);
+            const fpsInput = document.getElementById(`fps_${profile.id}`);
 
-    heightInput.addEventListener('keyup', () => updateRegulationText(profile.id));
-    widthInput.addEventListener('keyup', () => updateRegulationText(profile.id));
-    
-    videoBitrateInput.addEventListener('keyup', () => 
-        updateBitrateText(`videoBitrateText_${profile.id}`, "Video bitrate", videoBitrateInput.value));
-    
-    audioBitrateInput.addEventListener('keyup', () => 
-        updateBitrateText(`audioBitrateText_${profile.id}`, "Audio bitrate", audioBitrateInput.value));
-    
-    fpsInput.addEventListener('keyup', () => 
-        updateText(`fpsText_${profile.id}`, fpsInput.value));
-});
+            heightInput.addEventListener('keyup', () => updateRegulationText(profile.id));
+            widthInput.addEventListener('keyup', () => updateRegulationText(profile.id));
+            
+            videoBitrateInput.addEventListener('keyup', () => 
+                updateBitrateText(`videoBitrateText_${profile.id}`, "Video bitrate", videoBitrateInput.value));
+            
+            audioBitrateInput.addEventListener('keyup', () => 
+                updateBitrateText(`audioBitrateText_${profile.id}`, "Audio bitrate", audioBitrateInput.value));
+            
+            fpsInput.addEventListener('keyup', () => 
+                updateText(`fpsText_${profile.id}`, fpsInput.value));
+        });
 
-function updateRegulationText(profileId) {
-    const height = document.getElementById(`regulationHeight_${profileId}`).value;
-    const width = document.getElementById(`width_${profileId}`).value;
-    document.getElementById(`regulation_${profileId}`).textContent = `Regulation ${width}x${height}`;
-}
+        function updateRegulationText(profileId) {
+            const height = document.getElementById(`regulationHeight_${profileId}`).value;
+            const width = document.getElementById(`width_${profileId}`).value;
+            document.getElementById(`regulation_${profileId}`).textContent = `Regulation ${width}x${height}`;
+        }
 
-function updateBitrateText(elementId, label, value) {
-    document.getElementById(elementId).textContent = `${label} ${value}`;
-}
+        function updateBitrateText(elementId, label, value) {
+            document.getElementById(elementId).textContent = `${label} ${value}`;
+        }
 
-function updateText(elementId, value) {
-    document.getElementById(elementId).textContent = value;
-}
-    });
+        function updateText(elementId, value) {
+            document.getElementById(elementId).textContent = value;
+        }
+            });
 </script>
 
 
