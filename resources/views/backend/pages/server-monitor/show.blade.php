@@ -113,7 +113,7 @@
                     <h4 class="page-title pull-left">Server Monitor</h4>
                     <ul class="breadcrumbs pull-left">
                         <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                        <li><a href="{{ route('admin.admins.index') }}">All Servers</a></li>
+                        <li><a href="{{ route('server-monitor.index') }}">All Servers</a></li>
                         <li><span>View Server</span></li>
                     </ul>
                 </div>
@@ -159,81 +159,89 @@
 
     <!-- Install Modal -->
     <div class="modal fade" id="installModal" tabindex="-1" role="dialog" aria-labelledby="installModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="installModalLabel"><i class="fa fa-code"></i> Install Code</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="installModalLabel">
+                    <i class="fa fa-code"></i> Install Code
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-justify mb-4">
+                    You must copy and run this code in the terminal of your Linux server.
+                    Your server language must be set to English for the code to work properly.
+                </p>
+                <div class="mb-3">
+                    <textarea id="installCode" class="form-control" readonly rows="3"
+                        style="overflow-x: auto; overflow-y: hidden; white-space: nowrap; resize: none; width: 100%;">
+{{ $installScript }}
+                    </textarea>
                 </div>
-                <div class="modal-body">
-                    <p class="text-justify">
-                        You must copy and run this code in the terminal of your Linux server.
-                        Your server language must be set to English for the code to work properly.
-                    </p>
-                    <div class="mb-3">
-                        <textarea id="uninstallCode" class="form-control" readonly rows="3"
-                            style="overflow-x: auto; overflow-y: hidden; white-space: nowrap; resize: none; width: 100%;">
-                            {{ $installScript }}                 
-                            </textarea>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button class="btn w-100"
-                        style="background-color: #10b77f; border-color: #10b77f; color: white; font-size: 16px;"
-                        onclick="copyToClipboard('#installCode')">Copy to clipboard</button>
-
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn w-100"
+                    style="background-color: #10b77f; border-color: #10b77f; color: white; font-size: 16px;"
+                    onclick="copyToClipboard('#installCode')">Copy to clipboard</button>
             </div>
         </div>
     </div>
+</div>
+
+
 
     <!-- Uninstall Modal -->
     <div class="modal fade" id="uninstallModal" tabindex="-1" role="dialog" aria-labelledby="uninstallModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="uninstallModalLabel"><i class="fa fa-code"></i> Uninstall Code</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uninstallModalLabel">
+                    <i class="fa fa-code"></i> Uninstall Code
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-justify mb-4">
+                    You must copy and run this code in the terminal of your Linux server.
+                </p>
+                <div class="mb-3">
+                    <textarea id="uninstallCode" class="form-control" readonly rows="3"
+                        style="overflow-x: auto; overflow-y: hidden; white-space: nowrap; resize: none; width: 100%;">
+{{ $uninstallScript }}
+                    </textarea>
                 </div>
-                <div class="modal-body">
-                    <p class="text-justify">
-                        You must copy and run this code in the terminal of your Linux server.
-                    </p>
-                    <div class="mb-3">
-                        <textarea id="uninstallCode" class="form-control" readonly rows="3"
-                            style="overflow-x: auto; overflow-y: hidden; white-space: nowrap; resize: none; width: 100%;">
-                            {{ $uninstallScript }}    
-                            </textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn w-100"
-                        style="background-color: #10b77f; border-color: #10b77f; color: white; font-size: 16px;"
-                        onclick="copyToClipboard('#installCode')">Copy to clipboard</button>
-
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn w-100"
+                    style="background-color: #10b77f; border-color: #10b77f; color: white; font-size: 16px;"
+                    onclick="copyToClipboard('#uninstallCode')">Copy to clipboard</button>
             </div>
         </div>
     </div>
+</div>
 @endsection
 
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script>
-        function copyToClipboard(selector) {
-            const textarea = document.querySelector(selector);
+        function copyToClipboard(element) {
+            const textarea = document.querySelector(element);
             textarea.select();
+            textarea.setSelectionRange(0, 99999); // For mobile devices
             document.execCommand('copy');
+    
+            // Optional: Provide feedback to the user
             alert('Code copied to clipboard!');
         }
     </script>
+
+
     <script>
         document.getElementById('confirmUninstall').addEventListener('click', function() {
             // Add the uninstall logic here, e.g., sending an AJAX request to your uninstall route

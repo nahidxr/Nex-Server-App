@@ -219,9 +219,6 @@
                                 <input type="text" class="form-control" id="fileName" name="file_name"
                                     placeholder="Enter File Name" required>
                             </div>
-                            
-
-
                             <div class="row mt-4">
                                 <div class="col-12">
                                     <h5>Profiles</h5>
@@ -231,43 +228,51 @@
                                             @foreach ($profiles as $profile)
                                                 <div class="col-md-4">
                                                     <ul class="list-group">
-                                                        <li class="list-group-item profile-item mt-2" data-profile-id="{{ $profile->id }}">
-                                                            <span class="profile-header badge badge-info mb-2" data-id="{{ $profile->id }}">
+                                                        <li class="list-group-item profile-item mt-2"
+                                                            data-profile-id="{{ $profile->id }}">
+                                                            <span class="profile-header badge badge-info mb-2"
+                                                                data-id="{{ $profile->id }}">
                                                                 {{ $profile->name }}
-                                                                <i class="fa fa-edit ml-1" aria-hidden="true" title="Edit"></i>
+                                                                <i class="fa fa-edit ml-1" aria-hidden="true"
+                                                                    title="Edit"></i>
                                                             </span><br>
-                                                            <strong class="profile-text" id="regulation_{{ $profile->id }}">Regulation
+                                                            <strong class="profile-text">Regulation
                                                                 {{ $profile->width }}x{{ $profile->height }}</strong> -
-                                                            <span class="bitrate-text" id="videoBitrateText_{{ $profile->id }}">Video bitrate
+                                                            <span class="bitrate-text">Video bitrate
                                                                 {{ $profile->video_bitrate }}</span> -
-                                                            <span class="fps-text" id="fpsText_{{ $profile->id }}">{{ $profile->frame_rate }}</span> -
-                                                            <span class="audio-text" id="audioBitrateText_{{ $profile->id }}">Audio bitrate
+                                                            <span class="fps-text">{{ $profile->frame_rate }}</span> <br>
+                                                            <span class="audio-text">Audio bitrate
                                                                 {{ $profile->audio_bitrate }}</span>
-                            
-                                                            <!-- Input Fields (Initially Hidden) -->
+
+                                                            <!-- Container for input fields (hidden initially) -->
                                                             <div class="profile-inputs-container" style="display: none;">
-                                                                <hr style="border: none; border-top: 1px dotted #ccc; margin: 10px 0;">
+                                                                <hr
+                                                                    style="border: none; border-top: 1px dotted #ccc; margin: 10px 0;">
                                                                 <div class="profile-inputs">
                                                                     <div class="form-group">
-                                                                        <label for="regulationHeight_{{ $profile->id }}">Height</label>
+                                                                        <label for="regulationHeight_{{ $profile->id }}">
+                                                                            Height</label>
                                                                         <input type="number" class="form-control"
                                                                             id="regulationHeight_{{ $profile->id }}"
                                                                             value="{{ $profile->height }}">
                                                                     </div>
                                                                     <div class="form-group">
-                                                                        <label for="width_{{ $profile->id }}">Width</label>
+                                                                        <label
+                                                                            for="width_{{ $profile->id }}">Width</label>
                                                                         <input type="number" class="form-control"
                                                                             id="width_{{ $profile->id }}"
                                                                             value="{{ $profile->width }}">
                                                                     </div>
                                                                     <div class="form-group">
-                                                                        <label for="videoBitrate_{{ $profile->id }}">Video Bitrate</label>
+                                                                        <label for="videoBitrate_{{ $profile->id }}">Video
+                                                                            Bitrate</label>
                                                                         <input type="text" class="form-control"
                                                                             id="videoBitrate_{{ $profile->id }}"
                                                                             value="{{ $profile->video_bitrate }}">
                                                                     </div>
                                                                     <div class="form-group">
-                                                                        <label for="audioBitrate_{{ $profile->id }}">Audio Bitrate</label>
+                                                                        <label for="audioBitrate_{{ $profile->id }}">Audio
+                                                                            Bitrate</label>
                                                                         <input type="text" class="form-control"
                                                                             id="audioBitrate_{{ $profile->id }}"
                                                                             value="{{ $profile->audio_bitrate }}">
@@ -354,47 +359,6 @@
         </div>
     </div>
 @endsection
-<script>
-    // JavaScript to handle keyup events and update the profile display
-    document.addEventListener('DOMContentLoaded', function () {
-        const profiles = @json($profiles); // Pass PHP profiles data to JavaScript
-
-        profiles.forEach(profile => {
-    const heightInput = document.getElementById(`regulationHeight_${profile.id}`);
-    const widthInput = document.getElementById(`width_${profile.id}`);
-    const videoBitrateInput = document.getElementById(`videoBitrate_${profile.id}`);
-    const audioBitrateInput = document.getElementById(`audioBitrate_${profile.id}`);
-    const fpsInput = document.getElementById(`fps_${profile.id}`);
-
-    heightInput.addEventListener('keyup', () => updateRegulationText(profile.id));
-    widthInput.addEventListener('keyup', () => updateRegulationText(profile.id));
-    
-    videoBitrateInput.addEventListener('keyup', () => 
-        updateBitrateText(`videoBitrateText_${profile.id}`, "Video bitrate", videoBitrateInput.value));
-    
-    audioBitrateInput.addEventListener('keyup', () => 
-        updateBitrateText(`audioBitrateText_${profile.id}`, "Audio bitrate", audioBitrateInput.value));
-    
-    fpsInput.addEventListener('keyup', () => 
-        updateText(`fpsText_${profile.id}`, fpsInput.value));
-});
-
-function updateRegulationText(profileId) {
-    const height = document.getElementById(`regulationHeight_${profileId}`).value;
-    const width = document.getElementById(`width_${profileId}`).value;
-    document.getElementById(`regulation_${profileId}`).textContent = `Regulation ${width}x${height}`;
-}
-
-function updateBitrateText(elementId, label, value) {
-    document.getElementById(elementId).textContent = `${label} ${value}`;
-}
-
-function updateText(elementId, value) {
-    document.getElementById(elementId).textContent = value;
-}
-    });
-</script>
-
 
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/resumable.js/1.1.0/resumable.min.js"></script>

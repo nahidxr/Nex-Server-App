@@ -23,7 +23,7 @@ Admin Create - Admin Panel
                 <h4 class="page-title pull-left">Server Create</h4>
                 <ul class="breadcrumbs pull-left">
                     <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ route('admin.admins.index') }}">All Server</a></li>
+                    <li><a href="{{ route('server-monitor.index') }}">All Server</a></li>
                     <li><span>Create Server</span></li>
                 </ul>
             </div>
