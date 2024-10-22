@@ -103,7 +103,7 @@ Admin Edit - Admin Panel
 
                         <!-- Advanced Settings Header -->
                         <div class="alert-settings-header" onclick="toggleAdvancedSettings()">
-                            <h5>Advanced Settings <i class="fa fa-chevron-down" id="toggle-icon"></i></h5>
+                            <h6 class="text-center" ><i class="fa fa-gears"></i> Advanced Settings</h6>
                         </div>
 
                       <!-- Advanced Settings Section -->
@@ -118,8 +118,10 @@ Admin Edit - Admin Panel
                                                 <label for="metric">Metric</label>
                                                 <select class="form-control" name="metric[]" style="height: 44.44px;">
                                                     <option value="cpu_usage" {{ $alert['metric'] == 'cpu_usage' ? 'selected' : '' }}>CPU Usage</option>
-                                                    <option value="memory_usage" {{ $alert['metric'] == 'memory_usage' ? 'selected' : '' }}>Memory Usage</option>
+                                                    <option value="ram_usage" {{ $alert['metric'] == 'ram_usage' ? 'selected' : '' }}>Ram Usage</option>
+                                                    <option value="disk_usage" {{ $alert['metric'] == 'disk_usage' ? 'selected' : '' }}>Disk Usage</option>
                                                 </select>
+
                                             </div>
                                             <div class="col-md-3 mb-3">
                                                 <label for="alert_rule">Rule</label>
@@ -203,7 +205,8 @@ Admin Edit - Admin Panel
                         <label for="metric">Metric</label>
                         <select class="form-control" name="metric[]" style="height: 44.44px;">
                             <option value="cpu_usage">CPU Usage</option>
-                            <option value="memory_usage">Memory Usage</option>
+                            <option value="ram_usage">Memory Usage</option>
+                            <option value="disk_usage">Disk Usage</option>
                         </select>
                     </div>
                     <div class="col-md-3 mb-3">

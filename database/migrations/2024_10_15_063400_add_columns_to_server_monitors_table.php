@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('server_monitors', function (Blueprint $table) {
             $table->json('alerts')->nullable();
-            $table->string('notification')->nullable();  // Field for notification type (e.g., Slack, Webhook)
+            $table->integer('notification')->nullable();  // Field for notification type (e.g., Slack, Webhook)
             $table->string('project_name')->nullable();  
         });
     }

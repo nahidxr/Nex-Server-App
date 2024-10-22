@@ -124,6 +124,23 @@
                              </li>
                          </ul>
                      </li>
+
+                     <li>
+                        <a href="javascript:void(0)" aria-expanded="true">
+                            <i class="fa fa-bell"></i>  <!-- Change icon to a bell for notifications -->
+                            <span>Notification Handler</span>
+                        </a>
+                        <ul class="collapse {{ Route::is('notification-handler.*') ? 'in' : '' }}">
+                            <li class="{{ Route::is('notification-handler.index') ? 'active' : '' }}">
+                                <a href="{{ route('notification-handler.index') }}">Notification List</a>
+                            </li>
+                            <li class="{{ Route::is('notification-handler.create') ? 'active' : '' }}">
+                                <a href="{{ route('notification-handler.create') }}">Add Notification</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    
                  </ul>
              </nav>
          </div>

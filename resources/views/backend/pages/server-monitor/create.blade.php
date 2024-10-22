@@ -102,7 +102,7 @@ Admin Create - Admin Panel
 
                         <!-- Advanced Settings Header -->
                         <div class="alert-settings-header" onclick="toggleAdvancedSettings()">
-                            <h5>Advanced Settings <i class="fa fa-chevron-down" id="toggle-icon"></i></h5>
+                            <h6 class="text-center" ><i class="fa fa-gears"></i> Advanced Settings</h6>
                         </div>
 
                        
@@ -118,7 +118,8 @@ Admin Create - Admin Panel
                                             <label for="metric">Metric</label>
                                             <select class="form-control" name="metric[]" style="height: 44.44px;">
                                                 <option value="cpu_usage">CPU Usage</option>
-                                                <option value="memory_usage">Memory Usage</option>
+                                                <option value="ram_usage">Ram Usage</option>
+                                                <option value="disk_usage">Disk Usage</option>
                                             </select>
                                         </div>
                                         <div class="col-md-3 mb-3">
