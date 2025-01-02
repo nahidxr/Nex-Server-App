@@ -82,15 +82,24 @@ Admins - Admin Panel
                                     <td>{{ $content->media_details['all_details']['frame_rate']['display'] }}</td>
                                     <td>{{ $content->media_details['all_details']['sample_rate']['display'] }}</td>
                                     <td>
-                                        <a class="btn btn-danger btn-sm ml-1 text-white" 
-                                           href="{{ url('/admin/upload/' . $content->id) }}" 
-                                           onclick="event.preventDefault(); document.getElementById('delete-form-{{ $content->id }}').submit();">
-                                           Delete
-                                        </a>
-                                        <form id="delete-form-{{ $content->id }}" action="{{ url('/admin/upload/' . $content->id) }}" method="POST" style="display: none;">
-                                            @method('DELETE')
-                                            @csrf
-                                        </form>
+                                    <ul class="d-flex justify-content-center">
+                                        <li class="mr-3">
+                                            <a href="{{ route('content-log.show', $content->id) }}"
+                                                class="text-secondary" title="View Server">
+                                                <i class="fa fa-eye"></i> <!-- Font Awesome eye icon -->
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="text-danger"
+                                                                onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this server?')) { document.getElementById('delete-form-{{ $content->id }}').submit(); }">
+                                                                <i class="ti-trash"></i>
+                                                            </a>
+                                            <form id="delete-form-{{ $content->id }}" action="{{ url('/admin/upload/' . $content->id) }}" method="POST" style="display: none;">
+                                                @method('DELETE')
+                                                @csrf
+                                            </form>
+                                             </li>
+                                          </ul>
                                     </td>
                                 </tr>
                                 @endforeach

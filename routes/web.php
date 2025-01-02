@@ -72,8 +72,10 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/upload/save-to-bucket', [FileUploadController::class, 'saveFileToBucket'])->name('upload.saveBucket');
     Route::delete('/upload/delete', [FileUploadController::class, 'tmpDelete'])->name('upload.delete');
     Route::delete('/upload/{id}', [FileUploadController::class, 'destroy'])->name('upload.destroy');
+    Route::get('/content-log/{id}', [FileUploadController::class, 'showLog'])->name('content-log.show'); // View specific server
+    // Route::get('/log/show', [FileUploadController::class, 'showLog'])->name('content-log.show'); 
 
-    //ne contentmanagement
+    //new contentmanagement
 
     Route::get('/content/create', [FileUploadController::class, 'create'])->name('content.create');
 

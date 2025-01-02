@@ -125,7 +125,7 @@
                          </ul>
                      </li>
 
-                     <li>
+                     {{-- <li>
                         <a href="javascript:void(0)" aria-expanded="true">
                             <i class="fa fa-bell"></i>  <!-- Change icon to a bell for notifications -->
                             <span>Notification Handler</span>
@@ -138,7 +138,7 @@
                                 <a href="{{ route('notification-handler.create') }}">Add Notification</a>
                             </li>
                         </ul>
-                    </li>
+                    </li> --}}
 
                     
                  </ul>

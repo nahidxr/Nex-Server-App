@@ -221,7 +221,7 @@
                             </div>
                             
 
-
+{{-- 
                             <div class="row mt-4">
                                 <div class="col-12">
                                     <h5>Profiles</h5>
@@ -287,16 +287,16 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <!-- Profile Section -->
-                            <div class="form-group mt-4" id="profileSection">
+                            {{-- <div class="form-group mt-4" id="profileSection">
                                 <div id="profileContainer">
                                     <!-- No profiles will be displayed initially -->
                                 </div>
                                 <button type="button" id="addProfileButton" class="btn btn-info mt-2">+ Add
                                     Custom Profile</button>
-                            </div>
+                            </div> --}}
 
                             <div class="row">
                                 <div class="col-6">

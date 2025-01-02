@@ -143,17 +143,17 @@ class FileUploadController extends Controller
         ]);
 
             // Ensure that at least one of 'profiles' or 'selected_profiles' is provided
-            if (empty($request->input('profiles')) && empty($request->input('selected_profiles'))) {
-                $message = 'Either profiles or selected_profiles must be provided.';
+            // if (empty($request->input('profiles')) && empty($request->input('selected_profiles'))) {
+            //     $message = 'Either profiles or selected_profiles must be provided.';
 
-                return response()->json(['message' => $message, 'status' => 'danger'], 422);
-            }
+            //     return response()->json(['message' => $message, 'status' => 'danger'], 422);
+            // }
 
-                // Process and merge profiles into a single array
-                $finalProfiles = $this->mergeProfiles(
-                    $request->input('profiles', []),  // Default to an empty array if null
-                    $request->input('selected_profiles', [])
-                );
+            // Process and merge profiles into a single array
+            // $finalProfiles = $this->mergeProfiles(
+            //     $request->input('profiles', []),  // Default to an empty array if null
+            //     $request->input('selected_profiles', [])
+            // );
 
            
 
@@ -196,7 +196,7 @@ class FileUploadController extends Controller
                 $content->file_id = $uniqueFileId;
                 $content->file_path = $destinationPath; // Path in the GCS bucket
                 $content->folder = $validated['file_path']; // Store the folder path
-                $content->profiles = json_encode($finalProfiles);
+                // $content->profiles = json_encode($finalProfiles);
                 $fileDir = public_path("storage/public/upload/{$validated['file_path']}/{$validated['file_name']}");
                 $content->media_details = $this->generateVideoDetails($fileDir);
                 $content->save();
@@ -475,6 +475,120 @@ class FileUploadController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('upload.index')->with('error', 'An error occurred while deleting the content: ' . $e->getMessage());
         }
+    }
+
+    // public function showLog($id)
+    // {
+    //     // Query the Content model based on the provided id
+    //     $content = Content::find($id);
+        
+    //     // Check if content is found
+    //     if (!$content) {
+    //         abort(404, 'Content not found.');
+    //     }
+    
+    //     // Get the file_id from the Content model
+    //     $fileId = $content->file_id;
+    
+    //     // File path for the log file
+    //     $filePath = '/usr/local/nexdecade/nex-vod-processing/storage/logs/ffmpeg-status.log';
+        
+    //     // Check if the log file exists
+    //     if (!File::exists($filePath)) {
+    //         abort(404, 'Log file not found.');
+    //     }
+        
+    //     // Read the entire log file content
+    //     $logContent = File::get($filePath);
+        
+    //     // Filter log content based on the file_id (searching for occurrences of file_id in the log)
+    //     $filteredLogContent = '';
+        
+    //     // If the file_id is found, extract the relevant lines from the log content
+    //     if (strpos($logContent, $fileId) !== false) {
+    //         // Split the log content into lines
+    //         $logLines = explode("\n", $logContent);
+            
+    //         // Filter lines that contain the file_id
+    //         foreach ($logLines as $line) {
+    //             if (strpos($line, $fileId) !== false) {
+    //                 $filteredLogContent .= $line . "\n";
+    //             }
+    //         }
+    //     } else {
+    //         abort(404, 'File ID not found in the log file.');
+    //     }
+    
+    //     // Pass the filtered log content and content data to the view
+    //     return view('backend.pages.content_management.showLog', compact('filteredLogContent', 'content'));
+    // }
+
+
+    public function showLog($id)
+    {
+        $content = Content::find($id);
+        
+        // Check if content is found
+        if (!$content) {
+            abort(404, 'Content not found.');
+        }
+    
+        // Get the file_id from the Content model
+        $fileId = $content->file_id;
+    
+        // File path for the log file
+        $filePath = '/usr/local/nexdecade/nex-vod-processing/storage/logs/ffmpeg-status.log';
+        
+        // Check if the log file exists
+        if (!File::exists($filePath)) {
+            abort(404, 'Log file not found.');
+        }
+        
+        // Read the entire log file content
+        $logContent = File::get($filePath);
+        
+        // Filter log content based on the file_id (searching for occurrences of file_id in the log)
+        $filteredLogContent = '';
+        
+        // If the file_id is found, extract the relevant lines from the log content
+        if (strpos($logContent, $fileId) !== false) {
+            // Split the log content into lines
+            $logLines = explode("\n", $logContent);
+            
+            // Filter lines that contain the file_id
+            foreach ($logLines as $line) {
+                if (strpos($line, $fileId) !== false) {
+                    $filteredLogContent .= $line . "\n";
+                }
+            }
+        } else {
+            abort(404, 'File ID not found in the log file.');
+        }
+
+        // Process the log content into an array of entries
+        $logEntries = $this->processLogContent($filteredLogContent);
+        
+        // Pass the structured log entries to the view
+        return view('backend.pages.content_management.showLog', compact('logEntries'));
+    }
+
+    private function processLogContent($logContent)
+    {
+        // Split the content by lines
+        $lines = explode("\n", $logContent);
+        $entries = [];
+
+        // Parse each line into an entry
+        foreach ($lines as $line) {
+            if (preg_match('/(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) - (.*)/', $line, $matches)) {
+                $entries[] = [
+                    'time' => $matches[1],
+                    'action' => $matches[2],
+                ];
+            }
+        }
+        
+        return $entries;
     }
 
 
